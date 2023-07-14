@@ -10,23 +10,9 @@
 		00E356F31AD99517003FC87E /* GymTrackTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* GymTrackTests.m */; };
 		0C80B921A6F3F58F76C31292 /* libPods-GymTrack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-GymTrack.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
-		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-GymTrack-GymTrackTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-GymTrack-GymTrackTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		B23DFC4029AFDA260039B103 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B23DFC3029AFDA250039B103 /* Zocial.ttf */; };
-		B23DFC4129AFDA260039B103 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B23DFC3129AFDA250039B103 /* Octicons.ttf */; };
-		B23DFC4229AFDA260039B103 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B23DFC3229AFDA250039B103 /* Feather.ttf */; };
-		B23DFC4329AFDA260039B103 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B23DFC3329AFDA250039B103 /* EvilIcons.ttf */; };
-		B23DFC4429AFDA260039B103 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B23DFC3429AFDA250039B103 /* FontAwesome.ttf */; };
-		B23DFC4529AFDA260039B103 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B23DFC3529AFDA250039B103 /* Foundation.ttf */; };
-		B23DFC4629AFDA260039B103 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B23DFC3629AFDA250039B103 /* MaterialCommunityIcons.ttf */; };
-		B23DFC4929AFDA260039B103 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B23DFC3929AFDA260039B103 /* Fontisto.ttf */; };
-		B23DFC4A29AFDA260039B103 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B23DFC3A29AFDA260039B103 /* Ionicons.ttf */; };
-		B23DFC4B29AFDA260039B103 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B23DFC3B29AFDA260039B103 /* SimpleLineIcons.ttf */; };
-		B23DFC4C29AFDA260039B103 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B23DFC3C29AFDA260039B103 /* Entypo.ttf */; };
-		B23DFC4E29AFDA260039B103 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B23DFC3E29AFDA260039B103 /* AntDesign.ttf */; };
-		B23DFC4F29AFDA260039B103 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B23DFC3F29AFDA260039B103 /* MaterialIcons.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -289,21 +275,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B23DFC4A29AFDA260039B103 /* Ionicons.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				B23DFC4529AFDA260039B103 /* Foundation.ttf in Resources */,
-				B23DFC4429AFDA260039B103 /* FontAwesome.ttf in Resources */,
-				B23DFC4B29AFDA260039B103 /* SimpleLineIcons.ttf in Resources */,
-				B23DFC4329AFDA260039B103 /* EvilIcons.ttf in Resources */,
-				B23DFC4E29AFDA260039B103 /* AntDesign.ttf in Resources */,
-				B23DFC4929AFDA260039B103 /* Fontisto.ttf in Resources */,
-				B23DFC4029AFDA260039B103 /* Zocial.ttf in Resources */,
-				B23DFC4229AFDA260039B103 /* Feather.ttf in Resources */,
-				B23DFC4129AFDA260039B103 /* Octicons.ttf in Resources */,
-				B23DFC4F29AFDA260039B103 /* MaterialIcons.ttf in Resources */,
-				B23DFC4629AFDA260039B103 /* MaterialCommunityIcons.ttf in Resources */,
-				B23DFC4C29AFDA260039B103 /* Entypo.ttf in Resources */,
-				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
