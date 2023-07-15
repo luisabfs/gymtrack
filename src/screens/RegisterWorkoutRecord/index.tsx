@@ -6,9 +6,9 @@ import { View, Text } from 'react-native';
 const RegisterWorkoutRecord: React.FC = () => {
   return (
     <View>
-        <Text>Register Workout Record</Text>
+      <Text>Register Workout Record</Text>
     </View>
-    );
-}
+  );
+};
 
 export default RegisterWorkoutRecord;
