@@ -1,0 +1,20 @@
+import styled, { DefaultTheme } from 'styled-components/native';
+
+interface Props {
+  active?: boolean;
+  theme: DefaultTheme;
+}
+
+export const Container = styled.View`
+  flex: 1;
+  padding: 0 30px;
+  background-color: ${(props) => props.theme.colors.background};
+`;
+
+export const ProgressBar = styled.View`
+  flex: 1;
+  height: 2px;
+  background-color: ${({ theme, active }: Props) =>
+    active ? theme.colors.accent : theme.colors.disabled};
+  margin: 20px 5px;
+`;
