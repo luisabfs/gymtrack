@@ -1,0 +1,1 @@
+![GymTrack Logo](assets/Thumb.png)
