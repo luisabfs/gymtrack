@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SafeAreaView, ScrollView, StatusBar, View } from 'react-native';
-import styled from 'styled-components/native';
+import styled, { useTheme } from 'styled-components/native';
 import { Checkbox, TextInput, Button, Divider } from 'react-native-paper';
 import { saveExercise } from '../../config/firebase';
 
@@ -37,6 +37,7 @@ interface Set {
 }
 
 function Workout(): JSX.Element {
+  const theme = useTheme();
   const [exercises, setExercices] = useState<any[]>([
     {
       id: Math.random().toString(36).slice(2, 10),
@@ -61,11 +62,11 @@ function Workout(): JSX.Element {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#323232' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <StatusBar barStyle={'dark-content'} />
       <ScrollView contentInsetAdjustmentBehavior="automatic">
         <View style={{ padding: 10 }}>
-          <Title>GymTrack</Title>
+          <Title style={{ color: theme.colors.accent }}>GymTrack</Title>
           <Input
             mode="outlined"
             label="Exercício"
