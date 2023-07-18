@@ -1,4 +1,5 @@
 import styled, { DefaultTheme } from 'styled-components/native';
+import { List } from 'react-native-paper';
 
 interface Props {
   active?: boolean;
@@ -17,4 +18,20 @@ export const ProgressBar = styled.View`
   background-color: ${({ theme, active }: Props) =>
     active ? theme.colors.accent : theme.colors.disabled};
   margin: 20px 5px;
+`;
+
+export const CustomAccordeon = styled(List.Accordion).attrs(({ theme }) => ({
+  titleStyle: {
+    color: theme.colors.fonts.secondary,
+    fontSize: 14
+  },
+  theme
+}))`
+  background-color: #333;
+  border-radius: 10px;
+  padding: 2px 10px;
+  font-size: 14px;
+  margin: 5px 0;
+  color: orange;
+  border: ${({ theme }) => `1px solid ${theme.colors.secondary}`};
 `;
