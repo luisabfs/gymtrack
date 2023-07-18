@@ -11,7 +11,10 @@ const theme = {
     }
   },
   fonts: {
-    main: 'Nunito'
+    regular: 'Nunito',
+    bold: 'Nunito-Bold',
+    semibold: 'Nunito-SemiBold',
+    light: 'Nunito-Light'
   }
 };
 

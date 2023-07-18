@@ -18,5 +18,5 @@ export const CustomInput = styled.TextInput`
   padding: 12px;
   color: ${({ theme }) => theme.colors.fonts.primary};
   font-size: 14px;
-  font-family: ${({ theme }) => theme.fonts.main};
+  font-family: ${({ theme }) => theme.fonts.regular};
 `;

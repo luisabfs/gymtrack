@@ -34,7 +34,7 @@ const RegisterWorkoutRecord: React.FC = () => {
               </Font>
             </View>
             <View>
-              <Font size={11} type="thin">
+              <Font size={11} type="light">
                 passo
               </Font>
               <Font size={18} type="bold">
@@ -89,7 +89,7 @@ const RegisterWorkoutRecord: React.FC = () => {
 
         <View>
           <Button
-            style={{ borderRadius: 4 }}
+            style={{ borderRadius: 4, marginBottom: 15 }}
             mode="contained"
             buttonColor={theme.colors.accent}>
             próximo →

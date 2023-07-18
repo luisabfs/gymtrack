@@ -15,7 +15,7 @@ const Input: React.FC<Props> = ({ label, icon, placeholder }) => {
   const { colors } = useTheme();
   return (
     <Container>
-      <Font>{label}</Font>
+      <Font type="semibold">{label}</Font>
       <Wrapper>
         <Icon size={24} name={icon || 'pencil'} color={colors.secondary} />
         <CustomInput
