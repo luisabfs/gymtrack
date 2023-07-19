@@ -4,7 +4,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { ThemeProvider } from 'styled-components/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import RegisterWorkoutRecord from './screens/RegisterWorkoutRecord';
+import RegisterRecordInfo from './screens/RegisterRecordInfo';
 import theme from './themes';
 
 const Stack = createNativeStackNavigator();
@@ -14,14 +14,17 @@ function App(): JSX.Element {
     <NavigationContainer>
       <ThemeProvider theme={theme}>
         <PaperProvider>
-          <StatusBar barStyle={'light-content'} />
+          <StatusBar
+            barStyle={'light-content'}
+            backgroundColor={theme.colors.background}
+          />
           <Stack.Navigator
             screenOptions={{
               headerShown: false
             }}>
             <Stack.Screen
-              name="RegisterWorkoutRecord"
-              component={RegisterWorkoutRecord}
+              name="RegisterRecordInfo"
+              component={RegisterRecordInfo}
             />
           </Stack.Navigator>
         </PaperProvider>

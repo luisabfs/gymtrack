@@ -1,12 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, SafeAreaView } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import { Font, Input } from '../../components';
 import { List, Checkbox, Button } from 'react-native-paper';
-import { Container, ProgressBar, CustomAccordeon } from './styles';
+import {
+  Container,
+  ProgressBar,
+  CustomAccordeon,
+  CustomAccordionItem
+} from './styles';
 
-const RegisterWorkoutRecord: React.FC = () => {
+const RegisterRecordInfo: React.FC = () => {
   const theme = useTheme();
+  const [expanded, setExpanded] = useState(false);
+  const [checked, setChecked] = useState(false);
+
+  const weekDays = [
+    'segunda',
+    'terça',
+    'quarta',
+    'quinta',
+    'sexta',
+    'sábado',
+    'domingo'
+  ];
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#333' }}>
@@ -48,6 +65,7 @@ const RegisterWorkoutRecord: React.FC = () => {
             placeholder='"Hipertrofia"'
             icon="bullseye-arrow"
           />
+
           {/* // TODO: add date picker */}
           <Input label="período" icon="calendar" />
 
@@ -61,27 +79,35 @@ const RegisterWorkoutRecord: React.FC = () => {
                   icon="dumbbell"
                   color={theme.colors.secondary}
                 />
-              )}>
+              )}
+              expanded={expanded}
+              onPress={() => setExpanded(!expanded)}>
               <>
-                {/* // TODO: make this a component (CustomAccordionItem) */}
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start'
-                  }}>
-                  {/* // TODO: build custom checkbox */}
-                  <Checkbox status="checked" color={theme.colors.accent} />
-                  <Font>segunda</Font>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center'
-                  }}>
-                  <Checkbox status="checked" color={theme.colors.accent} />
-                  <Font>terça</Font>
-                </View>
+                {weekDays.map((day) => (
+                  <CustomAccordionItem key={day}>
+                    <Checkbox.Item
+                      label={day}
+                      position="leading"
+                      uncheckedColor={theme.colors.accent}
+                      style={{
+                        paddingBottom: 0,
+                        paddingTop: 0,
+                        width: '90%'
+                      }}
+                      labelStyle={{
+                        color: theme.colors.fonts.primary,
+                        fontFamily: theme.fonts.regular,
+                        fontSize: 14,
+                        textAlign: 'left',
+                        width: '100%'
+                      }}
+                      mode="android"
+                      status={checked ? 'checked' : 'unchecked'}
+                      onPress={() => setChecked(!checked)}
+                      color={theme.colors.accent}
+                    />
+                  </CustomAccordionItem>
+                ))}
               </>
             </CustomAccordeon>
           </View>
@@ -92,7 +118,7 @@ const RegisterWorkoutRecord: React.FC = () => {
             style={{ borderRadius: 4, marginBottom: 15 }}
             mode="contained"
             buttonColor={theme.colors.accent}>
-            próximo →
+            <Font type="semibold">próximo →</Font>
           </Button>
         </View>
       </Container>
@@ -100,4 +126,4 @@ const RegisterWorkoutRecord: React.FC = () => {
   );
 };
 
-export default RegisterWorkoutRecord;
+export default RegisterRecordInfo;

@@ -35,3 +35,9 @@ export const CustomAccordeon = styled(List.Accordion).attrs(({ theme }) => ({
   color: orange;
   border: ${({ theme }) => `1px solid ${theme.colors.secondary}`};
 `;
+
+export const CustomAccordionItem = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+`;
