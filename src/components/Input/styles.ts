@@ -15,7 +15,8 @@ export const Wrapper = styled.View`
 
 export const CustomInput = styled.TextInput`
   flex: 1;
-  padding: 12px;
+  height: 45px;
+  padding-left: 10px;
   color: ${({ theme }) => theme.colors.fonts.primary};
   font-size: 14px;
   font-family: ${({ theme }) => theme.fonts.regular};
