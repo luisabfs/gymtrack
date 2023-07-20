@@ -10,7 +10,7 @@ interface Props {
   label?: string;
   rowWeekDays?: boolean;
   leftIcon?: string;
-  children?: React.ReactElement;
+  children?: React.ReactElement[];
 }
 
 const Accordion: React.FC<Props> = ({

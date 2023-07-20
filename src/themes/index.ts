@@ -5,6 +5,7 @@ const theme = {
     white: '#FFFFFF',
     disabled: '#D9D9D9',
     secondary: '#979797',
+    darker: '#222121',
     fonts: {
       primary: '#F2F2F2',
       secondary: '#828282'

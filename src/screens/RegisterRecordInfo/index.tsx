@@ -1,29 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, SafeAreaView } from 'react-native';
 import { useTheme } from 'styled-components/native';
-import { Font, Input } from '../../components';
-import { List, Checkbox, Button } from 'react-native-paper';
-import {
-  Container,
-  ProgressBar,
-  CustomAccordeon,
-  CustomAccordionItem
-} from './styles';
+import { Font, Input, Accordion } from '../../components';
+import { Button } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import { RegisterWorkoutRecordNavigationProp } from '../../types/navigation.d';
+
+import { Container, ProgressBar } from './styles';
 
 const RegisterRecordInfo: React.FC = () => {
   const theme = useTheme();
-  const [expanded, setExpanded] = useState(false);
-  const [checked, setChecked] = useState(false);
-
-  const weekDays = [
-    'segunda',
-    'terça',
-    'quarta',
-    'quinta',
-    'sexta',
-    'sábado',
-    'domingo'
-  ];
+  const navigation = useNavigation<RegisterWorkoutRecordNavigationProp>();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#333' }}>
@@ -59,7 +46,7 @@ const RegisterRecordInfo: React.FC = () => {
               </Font>
             </View>
           </View>
-          <Input label="nome" placeholder='"01/2023"' />
+          <Input icon="pencil" label="nome" placeholder='"01/2023"' />
           <Input
             label="objetivo"
             placeholder='"Hipertrofia"'
@@ -69,55 +56,17 @@ const RegisterRecordInfo: React.FC = () => {
           {/* // TODO: add date picker */}
           <Input label="período" icon="calendar" />
 
-          <View style={{ marginTop: 5, marginBottom: 5 }}>
-            <Font>dias de treino</Font>
-            <CustomAccordeon
-              title='"seg, ter, qua, quin"'
-              left={(props) => (
-                <List.Icon
-                  {...props}
-                  icon="dumbbell"
-                  color={theme.colors.secondary}
-                />
-              )}
-              expanded={expanded}
-              onPress={() => setExpanded(!expanded)}>
-              <>
-                {weekDays.map((day) => (
-                  <CustomAccordionItem key={day}>
-                    <Checkbox.Item
-                      label={day}
-                      position="leading"
-                      uncheckedColor={theme.colors.accent}
-                      style={{
-                        paddingBottom: 0,
-                        paddingTop: 0,
-                        width: '90%'
-                      }}
-                      labelStyle={{
-                        color: theme.colors.fonts.primary,
-                        fontFamily: theme.fonts.regular,
-                        fontSize: 14,
-                        textAlign: 'left',
-                        width: '100%'
-                      }}
-                      mode="android"
-                      status={checked ? 'checked' : 'unchecked'}
-                      onPress={() => setChecked(!checked)}
-                      color={theme.colors.accent}
-                    />
-                  </CustomAccordionItem>
-                ))}
-              </>
-            </CustomAccordeon>
-          </View>
+          <Accordion leftIcon="dumbbell" label="dias de treino" />
         </View>
 
         <View>
           <Button
             style={{ borderRadius: 4, marginBottom: 15 }}
             mode="contained"
-            buttonColor={theme.colors.accent}>
+            buttonColor={theme.colors.accent}
+            onPress={() =>
+              navigation.navigate('RegisterWorkouts', { recordName: '01/2023' })
+            }>
             <Font type="semibold">próximo →</Font>
           </Button>
         </View>
