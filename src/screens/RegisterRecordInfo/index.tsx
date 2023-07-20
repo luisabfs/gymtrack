@@ -46,15 +46,16 @@ const RegisterRecordInfo: React.FC = () => {
               </Font>
             </View>
           </View>
-          <Input icon="pencil" label="nome" placeholder='"01/2023"' />
+          <Input rounded icon="pencil" label="nome" placeholder='"01/2023"' />
           <Input
+            rounded
             label="objetivo"
             placeholder='"Hipertrofia"'
             icon="bullseye-arrow"
           />
 
           {/* // TODO: add date picker */}
-          <Input label="período" icon="calendar" />
+          <Input rounded label="período" icon="calendar" />
 
           <Accordion leftIcon="dumbbell" label="dias de treino" />
         </View>
