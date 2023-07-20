@@ -6,21 +6,22 @@ import { Font } from '../';
 import { Container, Wrapper, CustomInput } from './styles';
 
 interface Props {
-  label: string;
+  label?: string;
   icon?: React.ComponentProps<typeof Icon>['name'];
   placeholder?: string;
 }
 
-const Input: React.FC<Props> = ({ label, icon, placeholder }) => {
+const Input: React.FC<Props> = ({ label, icon, placeholder, ...props }) => {
   const { colors } = useTheme();
   return (
     <Container>
-      <Font type="semibold">{label}</Font>
+      {label ? <Font type="semibold">{label}</Font> : null}
       <Wrapper>
-        <Icon size={24} name={icon || 'pencil'} color={colors.secondary} />
+        {icon ? <Icon size={24} name={icon} color={colors.secondary} /> : null}
         <CustomInput
           placeholderTextColor={colors.secondary}
           placeholder={placeholder || 'digite aqui'}
+          {...props}
         />
       </Wrapper>
     </Container>

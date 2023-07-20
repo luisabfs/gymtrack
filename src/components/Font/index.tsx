@@ -5,7 +5,7 @@ interface Props {
   size?: number;
   color?: string;
   type?: 'regular' | 'light' | 'semibold' | 'bold';
-  children: string;
+  children: string | string[];
 }
 
 const Font: React.FC<Props> = ({
