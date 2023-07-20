@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Font } from '..';
-import { List, Checkbox } from 'react-native-paper';
+import { Font, WeekdayCheckbox } from '..';
+import { List } from 'react-native-paper';
 import { useTheme } from 'styled-components/native';
 
-import { Container, CustomAccordeon, CustomAccordionItem } from './styles';
+import { Container, CustomAccordeon } from './styles';
 
 interface Props {
   label?: string;
@@ -20,19 +20,7 @@ const Accordion: React.FC<Props> = ({
   children
 }) => {
   const theme = useTheme();
-
   const [expanded, setExpanded] = useState(true);
-  const [checked, setChecked] = useState(false);
-
-  const weekDays = [
-    'segunda',
-    'terça',
-    'quarta',
-    'quinta',
-    'sexta',
-    'sábado',
-    'domingo'
-  ];
 
   return (
     <Container>
@@ -61,61 +49,8 @@ const Accordion: React.FC<Props> = ({
               shadowRadius: 5,
               shadowOpacity: 0.3
             }}>
-            <View
-              style={
-                rowWeekDays
-                  ? {
-                      flexDirection: 'row',
-                      flexWrap: 'wrap',
-                      justifyContent: 'space-evenly',
-                      marginBottom: 10
-                    }
-                  : null
-              }>
-              {weekDays.map((day) => (
-                <CustomAccordionItem key={day}>
-                  <Checkbox.Item
-                    label={day}
-                    position="leading"
-                    uncheckedColor={theme.colors.accent}
-                    style={{
-                      paddingBottom: 0,
-                      paddingTop: 0,
-                      paddingRight: 0,
-                      paddingLeft: 0,
-                      marginLeft: 0,
-                      marginRight: 0
-                    }}
-                    labelStyle={
-                      rowWeekDays
-                        ? {
-                            color: theme.colors.fonts.primary,
-                            fontFamily: theme.fonts.regular,
-                            fontSize: 14,
-                            textAlign: 'left'
-                          }
-                        : {
-                            color: theme.colors.fonts.primary,
-                            fontFamily: theme.fonts.regular,
-                            fontSize: 14,
-                            textAlign: 'left',
-                            paddingBottom: 0,
-                            paddingTop: 0,
-                            paddingRight: 0,
-                            paddingLeft: 0,
-                            marginLeft: 0,
-                            marginRight: 0
-                          }
-                    }
-                    mode="android"
-                    status={checked ? 'checked' : 'unchecked'}
-                    onPress={() => setChecked(!checked)}
-                    color={theme.colors.accent}
-                  />
-                </CustomAccordionItem>
-              ))}
-            </View>
-            {children ? children : null}
+            <WeekdayCheckbox row={rowWeekDays} />
+            {children ? <View style={{ padding: 10 }}>{children}</View> : null}
           </View>
         </>
       </CustomAccordeon>
