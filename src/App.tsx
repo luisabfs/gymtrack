@@ -22,7 +22,8 @@ function App(): JSX.Element {
           />
           <Stack.Navigator
             screenOptions={{
-              headerShown: false
+              headerShown: false,
+              navigationBarColor: theme.colors.background
             }}>
             <Stack.Screen
               name="RegisterRecordInfo"
