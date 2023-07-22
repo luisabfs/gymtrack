@@ -26,3 +26,10 @@ export const CustomInput = styled.TextInput`
   font-size: 14px;
   font-family: ${({ theme }) => theme.fonts.regular};
 `;
+
+export const NumberPickerButton = styled.TouchableOpacity`
+  flex: 1;
+  width: 35px;
+  height: 30px;
+  overflow: hidden;
+`;
