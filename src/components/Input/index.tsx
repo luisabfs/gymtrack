@@ -13,6 +13,8 @@ interface Props {
   placeholder?: string;
   rounded?: boolean;
   numberPicker?: boolean;
+  onChangeText?: (text: string) => void;
+  value?: string;
 }
 
 const Input: React.FC<Props> = ({
@@ -21,6 +23,8 @@ const Input: React.FC<Props> = ({
   placeholder,
   rounded,
   numberPicker = false,
+  onChangeText,
+  value,
   ...props
 }) => {
   const { colors } = useTheme();
@@ -80,6 +84,8 @@ const Input: React.FC<Props> = ({
             placeholderTextColor={colors.secondary}
             placeholder={placeholder || 'digite aqui'}
             icon={icon}
+            onChangeText={onChangeText}
+            value={value}
             {...props}
           />
         )}
