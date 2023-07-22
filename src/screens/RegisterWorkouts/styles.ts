@@ -1,5 +1,5 @@
 import styled, { DefaultTheme } from 'styled-components/native';
-import { List } from 'react-native-paper';
+import { List, Divider } from 'react-native-paper';
 
 interface Props {
   active?: boolean;
@@ -40,4 +40,18 @@ export const CustomAccordionItem = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+`;
+
+export const Row = styled.View`
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+
+export const CustomDivider = styled(Divider)`
+  flex: 1;
+  height: 2px;
+  margin-left: 10px;
+  background-color: ${({ theme }) => theme.colors.fonts.primary};
 `;

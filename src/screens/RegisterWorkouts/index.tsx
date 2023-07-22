@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, SafeAreaView } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import { Font, Accordion, Input } from '../../components';
-import { Button, Divider, Chip } from 'react-native-paper';
+import { Button, Portal, Modal } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
 import { RegisterWorkoutRecordRouteProp } from '../../types/navigation.d';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { Container, ProgressBar } from './styles';
+import { Container, ProgressBar, Row, CustomDivider } from './styles';
 
 const RegisterWorkouts: React.FC = () => {
   const theme = useTheme();
   const route = useRoute<RegisterWorkoutRecordRouteProp>();
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#333' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <Container>
         <View style={{ flex: 1 }}>
           <View
@@ -47,63 +48,81 @@ const RegisterWorkouts: React.FC = () => {
               </Font>
             </View>
           </View>
-          {/* <Input label="nome" placeholder='"01/2023"' />
-          <Input
-            label="objetivo"
-            placeholder='"Hipertrofia"'
-            icon="bullseye-arrow"
-          />
-
-          <Input label="período" icon="calendar" /> */}
 
           <Accordion rowWeekDays>
-            <View
-              style={{
-                width: '100%',
-                flexDirection: 'row',
-                alignItems: 'center'
-                // marginBottom: 5
-              }}>
-              <Font type="bold">grupo muscular</Font>
-              <Divider
-                style={{
-                  flex: 1,
-                  height: 2,
-                  marginLeft: 10,
-                  backgroundColor: theme.colors.secondary
-                }}
-              />
-            </View>
-            <View
-              style={{
-                // width: '100%',
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginBottom: 5
-                // justifyContent: 'space-between'
-              }}>
-              <View
-                style={{
-                  flex: 1
-                }}>
+            <Row>
+              <Font type="bold" size={16}>
+                grupo muscular
+              </Font>
+              <CustomDivider />
+            </Row>
+            <Row>
+              <View style={{ flex: 1 }}>
                 <Input />
               </View>
-              <Chip
-                icon={() => (
-                  <Icon size={18} name={'plus'} color={theme.colors.white} />
-                )}
-                mode="outlined"
-                textStyle={{ color: theme.colors.fonts.primary }}
-                style={{
-                  backgroundColor: 'transparent',
-                  borderRadius: 20,
-                  marginLeft: 5,
-                  height: 45,
-                  marginTop: 5,
-                  borderColor: theme.colors.accent
-                }}>
-                <Font>ADD</Font>
-              </Chip>
+              <Button icon={'plus'} textColor={theme.colors.accent}>
+                <Font size={12} type="light">
+                  ADD
+                </Font>
+              </Button>
+            </Row>
+            <Row>
+              <Font type="bold" size={16}>
+                exercícios
+              </Font>
+              <CustomDivider />
+            </Row>
+            <View>
+              <Portal>
+                <Modal
+                  contentContainerStyle={{
+                    backgroundColor: theme.colors.darker,
+                    padding: 20,
+                    margin: 20
+                  }}
+                  theme={{ colors: { backdrop: 'rgba(0, 0, 0, 0.6)' } }}
+                  visible={modalVisible}>
+                  <Input label="nome do exercício" />
+                  <Row>
+                    <View style={{ flex: 1, marginRight: 5 }}>
+                      <Input numberPicker label="nº de séries" />
+                    </View>
+                    <View style={{ flex: 1, marginLeft: 5 }}>
+                      <Input label="zona alvo de reps" />
+                    </View>
+                  </Row>
+                  <Row>
+                    <View style={{ flex: 1, marginRight: 5 }}>
+                      <Input label="tempo de descanso" />
+                    </View>
+                    <View style={{ flex: 1, marginLeft: 5 }}>
+                      <Input label="cadência" />
+                    </View>
+                  </Row>
+                  <Row style={{ justifyContent: 'flex-end', marginTop: 5 }}>
+                    <Button
+                      textColor={theme.colors.secondary}
+                      onPress={() => setModalVisible(false)}>
+                      <Font type="semibold">cancelar</Font>
+                    </Button>
+                    <Button
+                      mode="outlined"
+                      textColor={theme.colors.secondary}
+                      onPress={() => setModalVisible(false)}>
+                      <Font type="semibold">adicionar</Font>
+                    </Button>
+                  </Row>
+                </Modal>
+              </Portal>
+
+              <Button
+                onPress={() => setModalVisible(true)}
+                icon={'plus'}
+                textColor={theme.colors.secondary}>
+                <Font type="semibold" color={theme.colors.secondary}>
+                  adicionar exercício
+                </Font>
+              </Button>
             </View>
           </Accordion>
         </View>

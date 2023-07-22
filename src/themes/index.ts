@@ -4,6 +4,7 @@ const theme = {
     accent: '#DF1265',
     white: '#FFFFFF',
     disabled: '#D9D9D9',
+    disabled2: '#55565B',
     secondary: '#979797',
     darker: '#222121',
     fonts: {
