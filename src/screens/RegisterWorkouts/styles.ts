@@ -1,5 +1,5 @@
 import styled, { DefaultTheme } from 'styled-components/native';
-import { List, Divider } from 'react-native-paper';
+import { List, Divider, Chip } from 'react-native-paper';
 
 interface Props {
   active?: boolean;
@@ -54,4 +54,13 @@ export const CustomDivider = styled(Divider)`
   height: 2px;
   margin-left: 10px;
   background-color: ${({ theme }) => theme.colors.fonts.primary};
+`;
+
+export const MuscleGroupTag = styled(Chip)`
+  border-color: ${({ theme }) => theme.colors.secondary};
+  border-radius: 20px;
+  background-color: transparent;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  height: 35px;
 `;

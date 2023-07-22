@@ -5,14 +5,23 @@ import { Font, Accordion, Input } from '../../components';
 import { Button, Portal, Modal } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
 import { RegisterWorkoutRecordRouteProp } from '../../types/navigation.d';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { Container, ProgressBar, Row, CustomDivider } from './styles';
+import {
+  Container,
+  ProgressBar,
+  Row,
+  CustomDivider,
+  MuscleGroupTag
+} from './styles';
 
 const RegisterWorkouts: React.FC = () => {
   const theme = useTheme();
   const route = useRoute<RegisterWorkoutRecordRouteProp>();
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [muscleGroupInput, setMuscleGroupInput] = useState('');
+  const [muscleGroups, setMuscleGroups] = useState<string[]>([]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
@@ -56,12 +65,57 @@ const RegisterWorkouts: React.FC = () => {
               </Font>
               <CustomDivider />
             </Row>
+            <Row style={{ flexWrap: 'wrap' }}>
+              {muscleGroups.length
+                ? muscleGroups.map((group) => (
+                    <MuscleGroupTag
+                      key={group}
+                      mode="outlined"
+                      compact
+                      closeIcon={() => (
+                        <Icon
+                          size={18}
+                          name={'close'}
+                          color={theme.colors.secondary}
+                        />
+                      )}
+                      onClose={() =>
+                        setMuscleGroups(
+                          muscleGroups.filter((value) => value !== group)
+                        )
+                      }>
+                      <Font size={12} type="light">
+                        {group}
+                      </Font>
+                    </MuscleGroupTag>
+                  ))
+                : null}
+            </Row>
             <Row>
               <View style={{ flex: 1 }}>
-                <Input />
+                {/* TODO: remove capitalization */}
+                <Input
+                  onChangeText={(text: string) => setMuscleGroupInput(text)}
+                  value={muscleGroupInput}
+                />
               </View>
-              <Button icon={'plus'} textColor={theme.colors.accent}>
-                <Font size={12} type="light">
+              <Button
+                icon={'plus'}
+                textColor={theme.colors.accent}
+                disabled={!muscleGroupInput}
+                theme={{
+                  colors: { onSurfaceDisabled: theme.colors.disabled2 }
+                }}
+                onPress={() => {
+                  setMuscleGroupInput('');
+                  setMuscleGroups([...muscleGroups, muscleGroupInput]);
+                }}>
+                <Font
+                  size={12}
+                  type="light"
+                  color={
+                    !muscleGroupInput ? theme.colors.fonts.secondary : undefined
+                  }>
                   ADD
                 </Font>
               </Button>
@@ -125,8 +179,22 @@ const RegisterWorkouts: React.FC = () => {
               </Button>
             </View>
           </Accordion>
+          {/* TODO: only show when accordion is expanded */}
+          <Button
+            onPress={() => setModalVisible(true)}
+            icon={'plus'}
+            style={{
+              borderRadius: 4,
+              marginTop: 15,
+              borderColor: theme.colors.fonts.primary
+            }}
+            mode="outlined"
+            textColor={theme.colors.fonts.primary}>
+            <Font type="semibold" color={theme.colors.fonts.primary}>
+              adicionar treino
+            </Font>
+          </Button>
         </View>
-
         <View>
           <Button
             style={{ borderRadius: 4, marginBottom: 15 }}
