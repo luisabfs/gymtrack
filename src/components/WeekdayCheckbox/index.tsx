@@ -7,7 +7,7 @@ interface Props {
 }
 
 const WeekdayCheckbox: React.FC<Props> = ({ row }) => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState<string[]>([]);
 
   const weekDays = [
     'segunda',
@@ -27,8 +27,14 @@ const WeekdayCheckbox: React.FC<Props> = ({ row }) => {
           label={day}
           position="leading"
           mode="android"
-          status={checked ? 'checked' : 'unchecked'}
-          onPress={() => setChecked(!checked)}
+          status={
+            checked.find((check) => check === day) ? 'checked' : 'unchecked'
+          }
+          onPress={() =>
+            checked.find((check) => check === day)
+              ? setChecked(checked.filter((value) => value !== day))
+              : setChecked([...checked, day])
+          }
         />
       ))}
     </Container>
