@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-
+import React, { useState, useContext, useEffect } from 'react';
+import { RegisterWorkoutRecordContext } from '../../context/RegisterWorkoutRecord';
 import { Container, CheckboxItem } from './styles';
 
 interface Props {
@@ -7,6 +7,7 @@ interface Props {
 }
 
 const WeekdayCheckbox: React.FC<Props> = ({ row }) => {
+  const { setWeekdayCheckbox } = useContext(RegisterWorkoutRecordContext);
   const [checked, setChecked] = useState<string[]>([]);
 
   const weekDays = [
@@ -19,6 +20,10 @@ const WeekdayCheckbox: React.FC<Props> = ({ row }) => {
     'domingo'
   ];
 
+  useEffect(() => {
+    setWeekdayCheckbox(checked);
+  }, [checked, setWeekdayCheckbox]);
+
   return (
     <Container row={row}>
       {weekDays.map((day) => (
@@ -30,11 +35,11 @@ const WeekdayCheckbox: React.FC<Props> = ({ row }) => {
           status={
             checked.find((check) => check === day) ? 'checked' : 'unchecked'
           }
-          onPress={() =>
+          onPress={() => {
             checked.find((check) => check === day)
               ? setChecked(checked.filter((value) => value !== day))
-              : setChecked([...checked, day])
-          }
+              : setChecked([...checked, day]);
+          }}
         />
       ))}
     </Container>

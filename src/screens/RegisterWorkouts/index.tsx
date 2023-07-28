@@ -69,7 +69,7 @@ const RegisterWorkouts: React.FC = () => {
             </View>
           </View>
 
-          <Accordion rowWeekDays>
+          <Accordion rowWeekDays expandedFirst>
             <Row>
               <Font type="bold" size={16}>
                 grupo muscular

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View } from 'react-native';
 import { Font, WeekdayCheckbox } from '..';
 import { List } from 'react-native-paper';
 import { useTheme } from 'styled-components/native';
+import { RegisterWorkoutRecordContext } from '../../context/RegisterWorkoutRecord';
 
 import { Container, CustomAccordeon } from './styles';
 
@@ -10,6 +11,7 @@ interface Props {
   label?: string;
   rowWeekDays?: boolean;
   leftIcon?: string;
+  expandedFirst?: boolean;
   children?: React.ReactElement[];
 }
 
@@ -17,16 +19,23 @@ const Accordion: React.FC<Props> = ({
   label,
   leftIcon = 'pencil',
   rowWeekDays,
-  children
+  children,
+  expandedFirst = false
 }) => {
   const theme = useTheme();
-  const [expanded, setExpanded] = useState(true);
+  const { weekdayCheckbox } = useContext(RegisterWorkoutRecordContext);
+  const [expanded, setExpanded] = useState(expandedFirst);
+
+  const splited = weekdayCheckbox.toString().split(',');
+  const treated = splited.map((string) => string.slice(0, 3));
+  const formatted = treated.join(', ');
 
   return (
     <Container>
       {label ? <Font type="semibold">{label}</Font> : null}
       <CustomAccordeon
-        title={'"seg, ter, qua, quin"'}
+        placeholder={!weekdayCheckbox.length}
+        title={weekdayCheckbox.length ? formatted : '"seg, ter, qua, quin"'}
         left={(props) => (
           <List.Icon
             {...props}
