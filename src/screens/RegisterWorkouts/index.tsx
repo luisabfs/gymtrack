@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView } from 'react-native';
+import { View } from 'react-native';
+import {
+  SafeAreaView,
+  useSafeAreaInsets
+} from 'react-native-safe-area-context';
+
 import { useTheme } from 'styled-components/native';
 import { Font, Accordion, Input } from '../../components';
 import { Button, Portal, Modal } from 'react-native-paper';
@@ -18,13 +23,19 @@ import {
 const RegisterWorkouts: React.FC = () => {
   const theme = useTheme();
   const route = useRoute<RegisterWorkoutRecordRouteProp>();
+  const safeAreaInsets = useSafeAreaInsets();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [muscleGroupInput, setMuscleGroupInput] = useState('');
   const [muscleGroups, setMuscleGroups] = useState<string[]>([]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.background,
+        paddingTop: -safeAreaInsets.top
+      }}>
       <Container>
         <View style={{ flex: 1 }}>
           <View

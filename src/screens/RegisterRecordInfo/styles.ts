@@ -8,7 +8,7 @@ interface Props {
 
 export const Container = styled.View`
   flex: 1;
-  padding: 0 30px;
+  padding: 0 20px;
   background-color: ${(props) => props.theme.colors.background};
 `;
 

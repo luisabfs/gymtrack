@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, SafeAreaView } from 'react-native';
+import { View } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import { Font, Input, Accordion } from '../../components';
 import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { RegisterWorkoutRecordNavigationProp } from '../../types/navigation.d';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Container, ProgressBar } from './styles';
 
@@ -13,7 +14,7 @@ const RegisterRecordInfo: React.FC = () => {
   const navigation = useNavigation<RegisterWorkoutRecordNavigationProp>();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#333' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <Container>
         <View style={{ flex: 1 }}>
           <View

@@ -11,13 +11,13 @@
 		0C80B921A6F3F58F76C31292 /* libPods-GymTrack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-GymTrack.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		276C4E6B61A44AFF8D4192DE /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C07F33A69DA4DBBB4B9B16C /* Nunito-SemiBold.ttf */; };
+		5575599284A54ED6A8E99A21 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A611A84123264DA8A773637F /* Nunito-Bold.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-GymTrack-GymTrackTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-GymTrack-GymTrackTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		B2013BF12A65CDD700F9CB67 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B23DFC3629AFDA250039B103 /* MaterialCommunityIcons.ttf */; };
-		EFECC75645D24188A86D2ABB /* Nunito.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AB5EFF7824447729B3ABF4C /* Nunito.ttf */; };
-		5575599284A54ED6A8E99A21 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A611A84123264DA8A773637F /* Nunito-Bold.ttf */; };
 		BCC3123FE625496EA1A43123 /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C70EFB92AE2A45A1B99E0CBD /* Nunito-Light.ttf */; };
-		276C4E6B61A44AFF8D4192DE /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C07F33A69DA4DBBB4B9B16C /* Nunito-SemiBold.ttf */; };
+		EFECC75645D24188A86D2ABB /* Nunito.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AB5EFF7824447729B3ABF4C /* Nunito.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,11 +43,13 @@
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-GymTrack-GymTrackTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GymTrack-GymTrackTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-GymTrack.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GymTrack.debug.xcconfig"; path = "Target Support Files/Pods-GymTrack/Pods-GymTrack.debug.xcconfig"; sourceTree = "<group>"; };
 		4AB5EFF7824447729B3ABF4C /* Nunito.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Nunito.ttf; path = ../assets/fonts/Nunito.ttf; sourceTree = "<group>"; };
+		4C07F33A69DA4DBBB4B9B16C /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBold.ttf"; path = "../assets/fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-GymTrack.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GymTrack.release.xcconfig"; path = "Target Support Files/Pods-GymTrack/Pods-GymTrack.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-GymTrack-GymTrackTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GymTrack-GymTrackTests.debug.xcconfig"; path = "Target Support Files/Pods-GymTrack-GymTrackTests/Pods-GymTrack-GymTrackTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-GymTrack.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GymTrack.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = GymTrack/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-GymTrack-GymTrackTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GymTrack-GymTrackTests.release.xcconfig"; path = "Target Support Files/Pods-GymTrack-GymTrackTests/Pods-GymTrack-GymTrackTests.release.xcconfig"; sourceTree = "<group>"; };
+		A611A84123264DA8A773637F /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../assets/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; };
 		B23DFC3029AFDA250039B103 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Zocial.ttf; path = "../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		B23DFC3129AFDA250039B103 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Octicons.ttf; path = "../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		B23DFC3229AFDA250039B103 /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Feather.ttf; path = "../../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
@@ -61,10 +63,8 @@
 		B23DFC3C29AFDA260039B103 /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Entypo.ttf; path = "../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		B23DFC3E29AFDA260039B103 /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AntDesign.ttf; path = "../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		B23DFC3F29AFDA260039B103 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		C70EFB92AE2A45A1B99E0CBD /* Nunito-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Light.ttf"; path = "../assets/fonts/Nunito-Light.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		A611A84123264DA8A773637F /* Nunito-Bold.ttf */ = {isa = PBXFileReference; name = "Nunito-Bold.ttf"; path = "../assets/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		C70EFB92AE2A45A1B99E0CBD /* Nunito-Light.ttf */ = {isa = PBXFileReference; name = "Nunito-Light.ttf"; path = "../assets/fonts/Nunito-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		4C07F33A69DA4DBBB4B9B16C /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; name = "Nunito-SemiBold.ttf"; path = "../assets/fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
