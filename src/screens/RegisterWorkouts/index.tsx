@@ -208,7 +208,7 @@ const RegisterWorkouts: React.FC = () => {
         </View>
         <View>
           <Button
-            style={{ borderRadius: 4, marginBottom: 15 }}
+            style={{ borderRadius: 4, marginBottom: 5 }}
             mode="contained"
             buttonColor={theme.colors.accent}>
             <Font type="semibold">próximo →</Font>

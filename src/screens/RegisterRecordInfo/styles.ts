@@ -17,7 +17,7 @@ export const ProgressBar = styled.View`
   height: 2px;
   background-color: ${({ theme, active }: Props) =>
     active ? theme.colors.accent : theme.colors.disabled};
-  margin: 20px 5px;
+  margin: 30px 5px 20px 5px;
 `;
 
 export const CustomAccordeon = styled(List.Accordion).attrs(({ theme }) => ({

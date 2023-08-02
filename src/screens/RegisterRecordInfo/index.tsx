@@ -56,14 +56,14 @@ const RegisterRecordInfo: React.FC = () => {
           />
 
           {/* // TODO: add date picker */}
-          <Input rounded label="período" icon="calendar" />
+          {/* <Input rounded label="período" icon="calendar" /> */}
 
           <Accordion leftIcon="dumbbell" label="dias de treino" />
         </View>
 
         <View>
           <Button
-            style={{ borderRadius: 4, marginBottom: 15 }}
+            style={{ borderRadius: 4, marginBottom: 5 }}
             mode="contained"
             buttonColor={theme.colors.accent}
             onPress={() =>
