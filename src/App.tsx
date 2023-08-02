@@ -27,7 +27,7 @@ function App(): JSX.Element {
             />
             <RegisterWorkoutRecordProvider>
               <Stack.Navigator
-                screenOptions={{
+                screenOptions={({ navigation }) => ({
                   headerStyle: { backgroundColor: theme.colors.background },
                   headerShadowVisible: false,
                   headerLeft: () => (
@@ -35,11 +35,14 @@ function App(): JSX.Element {
                       size={37}
                       name={'chevron-left'}
                       color={theme.colors.secondary}
+                      onPress={() => {
+                        navigation.goBack();
+                      }}
                     />
                   ),
                   headerTitle: '',
                   navigationBarColor: theme.colors.background
-                }}>
+                })}>
                 <Stack.Screen
                   name="RegisterRecordInfo"
                   component={RegisterRecordInfo}
