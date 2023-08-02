@@ -2,11 +2,12 @@ import styled from 'styled-components/native';
 
 interface Props {
   rounded?: boolean;
-  icon?: string;
+  leftIcon?: string;
+  rightIconAction?: () => void;
 }
 
 export const Container = styled.View`
-  margin: 5px 0;
+  margin: ${({ rightIconAction }: Props) => (rightIconAction ? 0 : '5px 0')};
 `;
 
 export const Wrapper = styled.View`
@@ -21,7 +22,7 @@ export const Wrapper = styled.View`
 export const CustomInput = styled.TextInput`
   flex: 1;
   height: 45px;
-  padding-left: ${({ icon }: Props) => (icon ? 10 : 0)}px;
+  padding-left: ${({ leftIcon }: Props) => (leftIcon ? 10 : 0)}px;
   color: ${({ theme }) => theme.colors.fonts.primary};
   font-size: 14px;
   font-family: ${({ theme }) => theme.fonts.regular};

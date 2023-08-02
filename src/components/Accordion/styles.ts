@@ -3,6 +3,7 @@ import { List } from 'react-native-paper';
 
 interface Props {
   placeholder?: boolean;
+  hasInput?: boolean;
   theme: DefaultTheme;
 }
 
@@ -25,7 +26,8 @@ export const CustomAccordeon = styled(List.Accordion).attrs(
   border-radius: 10px;
   padding: 2px 10px;
   font-size: 14px;
-  margin-top: 5px;
-  /* display: none; */
+  margin-top: ${({ hasInput }: Props) => (hasInput ? -10 : 5)}px;
+  opacity: ${({ hasInput }: Props) => (hasInput ? 0 : 1)};
+  height: ${({ hasInput }: Props) => (hasInput ? 0 : 46)}px;
   border: ${({ theme }) => `1px solid ${theme.colors.secondary}`};
 `;

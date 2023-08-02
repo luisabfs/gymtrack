@@ -9,7 +9,9 @@ import { Container, Wrapper, CustomInput, NumberPickerButton } from './styles';
 
 interface Props {
   label?: string;
-  icon?: React.ComponentProps<typeof Icon>['name'];
+  leftIcon?: React.ComponentProps<typeof Icon>['name'];
+  rightIcon?: React.ComponentProps<typeof Icon>['name'];
+  rightIconAction?: () => void;
   placeholder?: string;
   rounded?: boolean;
   numberPicker?: boolean;
@@ -19,7 +21,9 @@ interface Props {
 
 const Input: React.FC<Props> = ({
   label,
-  icon,
+  leftIcon,
+  rightIcon,
+  rightIconAction,
   placeholder,
   rounded,
   numberPicker = false,
@@ -31,10 +35,12 @@ const Input: React.FC<Props> = ({
   const [pickerValue, setPickerValue] = useState(1);
 
   return (
-    <Container>
+    <Container rightIconAction={rightIconAction}>
       {label ? <Font type="semibold">{label}</Font> : null}
       <Wrapper rounded={rounded}>
-        {icon ? <Icon size={24} name={icon} color={colors.secondary} /> : null}
+        {leftIcon ? (
+          <Icon size={24} name={leftIcon} color={colors.secondary} />
+        ) : null}
         {numberPicker ? (
           <>
             <CustomInput
@@ -42,7 +48,7 @@ const Input: React.FC<Props> = ({
               editable={false}
               placeholderTextColor={colors.secondary}
               placeholder={placeholder || 'digite aqui'}
-              icon={icon}
+              leftIcon={leftIcon}
               value={pickerValue.toString()}
               {...props}
             />
@@ -83,12 +89,21 @@ const Input: React.FC<Props> = ({
           <CustomInput
             placeholderTextColor={colors.secondary}
             placeholder={placeholder || 'digite aqui'}
-            icon={icon}
+            leftIcon={leftIcon}
             onChangeText={onChangeText}
             value={value}
             {...props}
           />
         )}
+        {rightIcon && rightIconAction ? (
+          <Icon
+            size={24}
+            name={rightIcon}
+            color={colors.secondary}
+            style={{ padding: 10 }}
+            onPress={rightIconAction}
+          />
+        ) : null}
       </Wrapper>
     </Container>
   );

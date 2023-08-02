@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { View } from 'react-native';
-import { Font, WeekdayCheckbox } from '..';
+import { Font, WeekdayCheckbox, Input } from '..';
 import { List } from 'react-native-paper';
 import { useTheme } from 'styled-components/native';
 import { RegisterWorkoutRecordContext } from '../../context/RegisterWorkoutRecord';
@@ -12,6 +12,7 @@ interface Props {
   rowWeekDays?: boolean;
   leftIcon?: string;
   expandedFirst?: boolean;
+  hasInput?: boolean;
   children?: React.ReactElement[];
 }
 
@@ -20,7 +21,8 @@ const Accordion: React.FC<Props> = ({
   leftIcon = 'pencil',
   rowWeekDays,
   children,
-  expandedFirst = false
+  expandedFirst = false,
+  hasInput = false
 }) => {
   const theme = useTheme();
   const { weekdayCheckbox } = useContext(RegisterWorkoutRecordContext);
@@ -33,7 +35,17 @@ const Accordion: React.FC<Props> = ({
   return (
     <Container>
       {label ? <Font type="semibold">{label}</Font> : null}
+      {hasInput ? (
+        <Input
+          rounded
+          placeholder='"Treino A"'
+          leftIcon="pencil"
+          rightIcon="chevron-down"
+          rightIconAction={() => setExpanded(!expanded)}
+        />
+      ) : null}
       <CustomAccordeon
+        hasInput={hasInput}
         placeholder={!weekdayCheckbox.length}
         title={weekdayCheckbox.length ? formatted : '"seg, ter, qua, quin"'}
         left={(props) => (
