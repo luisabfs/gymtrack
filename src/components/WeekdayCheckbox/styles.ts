@@ -1,8 +1,9 @@
-import styled, { css } from 'styled-components/native';
+import styled, { css, DefaultTheme } from 'styled-components/native';
 import { Checkbox } from 'react-native-paper';
 
 interface Props {
   row?: boolean;
+  theme: DefaultTheme;
 }
 
 const rowContainer = css`
@@ -15,7 +16,7 @@ export const Container = styled.View`
   ${({ row }: Props) => (row ? rowContainer : null)}
 `;
 
-export const CheckboxItem = styled(Checkbox.Item).attrs(({ theme }) => ({
+export const CheckboxItem = styled(Checkbox.Item).attrs(({ theme }: Props) => ({
   uncheckedColor: theme.colors.accent,
   labelStyle: {
     color: theme.colors.fonts.primary,

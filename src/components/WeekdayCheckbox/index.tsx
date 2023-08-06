@@ -7,8 +7,12 @@ interface Props {
 }
 
 const WeekdayCheckbox: React.FC<Props> = ({ row }) => {
-  const { setWeekdayCheckbox } = useContext(RegisterWorkoutRecordContext);
-  const [checked, setChecked] = useState<string[]>([]);
+  const { workoutRecord, setWorkoutRecord } = useContext(
+    RegisterWorkoutRecordContext
+  );
+  const [checked, setChecked] = useState<string[]>(
+    (!row && workoutRecord.weekdays) || []
+  );
 
   const weekDays = [
     'segunda',
@@ -21,27 +25,43 @@ const WeekdayCheckbox: React.FC<Props> = ({ row }) => {
   ];
 
   useEffect(() => {
-    setWeekdayCheckbox(checked);
-  }, [checked, setWeekdayCheckbox]);
+    row
+      ? setWorkoutRecord({
+          ...workoutRecord,
+          workouts: {
+            workoutWeekdays: checked
+          }
+        })
+      : setWorkoutRecord({ ...workoutRecord, weekdays: checked });
+  }, [checked, row, setWorkoutRecord]);
 
   return (
     <Container row={row}>
-      {weekDays.map((day) => (
-        <CheckboxItem
-          key={day}
-          label={day}
-          position="leading"
-          mode="android"
-          status={
-            checked.find((check) => check === day) ? 'checked' : 'unchecked'
-          }
-          onPress={() => {
-            checked.find((check) => check === day)
-              ? setChecked(checked.filter((value) => value !== day))
-              : setChecked([...checked, day]);
-          }}
-        />
-      ))}
+      {weekDays.map((day) =>
+        (row && workoutRecord.weekdays.find((weekday) => weekday === day)) ||
+        !row ? (
+          <CheckboxItem
+            key={day}
+            label={
+              row &&
+              workoutRecord.weekdays.length < 6 &&
+              workoutRecord.weekdays.length > 4
+                ? day.slice(0, 3)
+                : day
+            }
+            position="leading"
+            mode="android"
+            status={
+              checked.find((check) => check === day) ? 'checked' : 'unchecked'
+            }
+            onPress={() => {
+              checked.find((check) => check === day)
+                ? setChecked(checked.filter((value) => value !== day))
+                : setChecked([...checked, day]);
+            }}
+          />
+        ) : null
+      )}
     </Container>
   );
 };
