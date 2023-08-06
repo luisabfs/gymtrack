@@ -13,6 +13,7 @@ interface Props {
   leftIcon?: string;
   expandedFirst?: boolean;
   hasInput?: boolean;
+  inputOnChangeText?: (text: string) => void;
   children?: React.ReactElement[];
 }
 
@@ -22,32 +23,36 @@ const Accordion: React.FC<Props> = ({
   rowWeekDays,
   children,
   expandedFirst = false,
-  hasInput = false
+  hasInput = false,
+  inputOnChangeText
 }) => {
   const theme = useTheme();
-  const { weekdayCheckbox } = useContext(RegisterWorkoutRecordContext);
+  const { workoutRecord } = useContext(RegisterWorkoutRecordContext);
   const [expanded, setExpanded] = useState(expandedFirst);
 
-  const splited = weekdayCheckbox.toString().split(',');
-  const treated = splited.map((string) => string.slice(0, 3));
-  const formatted = treated.join(', ');
+  const splited = workoutRecord.weekdays?.toString().split(',');
+  const treated = splited?.map((string) => string.slice(0, 3));
+  const formatted = treated?.join(', ');
 
   return (
     <Container>
       {label ? <Font type="semibold">{label}</Font> : null}
-      {hasInput ? (
+      {hasInput && inputOnChangeText ? (
         <Input
           rounded
           placeholder='"Treino A"'
           leftIcon="pencil"
-          rightIcon="chevron-down"
+          rightIcon="chevron-up"
           rightIconAction={() => setExpanded(!expanded)}
+          onChangeText={(text) => inputOnChangeText(text)}
         />
       ) : null}
       <CustomAccordeon
         hasInput={hasInput}
-        placeholder={!weekdayCheckbox.length}
-        title={weekdayCheckbox.length ? formatted : '"seg, ter, qua, quin"'}
+        placeholder={!workoutRecord.weekdays?.length}
+        title={
+          workoutRecord.weekdays?.length ? formatted : '"seg, ter, qua, quin"'
+        }
         left={(props) => (
           <List.Icon
             {...props}
