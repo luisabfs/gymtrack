@@ -17,6 +17,7 @@ interface Props {
   numberPicker?: boolean;
   onChangeText?: (text: string) => void;
   value?: string;
+  capitalize?: 'words' | 'none' | 'sentences' | 'characters';
 }
 
 const Input: React.FC<Props> = ({
@@ -29,6 +30,7 @@ const Input: React.FC<Props> = ({
   numberPicker = false,
   onChangeText,
   value,
+  capitalize = 'sentences',
   ...props
 }) => {
   const { colors } = useTheme();
@@ -92,6 +94,7 @@ const Input: React.FC<Props> = ({
             leftIcon={leftIcon}
             onChangeText={onChangeText}
             value={value}
+            autoCapitalize={capitalize}
             {...props}
           />
         )}
