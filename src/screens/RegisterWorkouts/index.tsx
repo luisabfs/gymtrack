@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View } from 'react-native';
 import {
   SafeAreaView,
@@ -6,10 +6,10 @@ import {
 } from 'react-native-safe-area-context';
 
 import { useTheme } from 'styled-components/native';
-import { Font, Accordion, Input } from '../../components';
-import { Button, Portal, Modal } from 'react-native-paper';
-import { useRoute } from '@react-navigation/native';
-import { RegisterWorkoutRecordRouteProp } from '../../types/navigation.d';
+import { Font, Accordion, Input, WorkoutModal } from '../../components';
+import { Button, Divider } from 'react-native-paper';
+import { RegisterWorkoutRecordContext } from '../../context/RegisterWorkoutRecord';
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {
@@ -22,12 +22,29 @@ import {
 
 const RegisterWorkouts: React.FC = () => {
   const theme = useTheme();
-  const route = useRoute<RegisterWorkoutRecordRouteProp>();
   const safeAreaInsets = useSafeAreaInsets();
+  const { setWorkoutRecord, workoutRecord } = useContext(
+    RegisterWorkoutRecordContext
+  );
 
   const [modalVisible, setModalVisible] = useState(false);
   const [muscleGroupInput, setMuscleGroupInput] = useState('');
+  const [exerciseNameInput, setExerciseNameInput] = useState('');
   const [muscleGroups, setMuscleGroups] = useState<string[]>([]);
+  const [workoutNameInput, setWorkoutNameInput] = useState<string>('');
+
+  //TODO: move state to context
+  const [workouts, setWorkouts] = useState<
+    (typeof workoutRecord)['workouts'][]
+  >([]);
+
+  const validateInputs = (): boolean => {
+    return (
+      !!exerciseNameInput &&
+      !!workoutNameInput &&
+      !!workoutRecord.workouts?.exercises?.length
+    );
+  };
 
   return (
     <SafeAreaView
@@ -56,7 +73,8 @@ const RegisterWorkouts: React.FC = () => {
             }}>
             <View style={{ justifyContent: 'flex-end' }}>
               <Font size={18} type="bold">
-                treinos da ficha{` ${route.params?.recordName}` || ''}:
+                treinos da ficha
+                {workoutRecord.name ? ` ${workoutRecord.name}` : ''}:
               </Font>
             </View>
             <View>
@@ -69,7 +87,23 @@ const RegisterWorkouts: React.FC = () => {
             </View>
           </View>
 
-          <Accordion rowWeekDays expandedFirst hasInput>
+          {workouts.length
+            ? workouts.map((workout) => (
+                <Accordion
+                  key={workout?.name}
+                  rowWeekDays
+                  hasInput
+                  inputOnChangeText={(text: string) =>
+                    setWorkoutNameInput(text)
+                  }></Accordion>
+              ))
+            : null}
+
+          <Accordion
+            rowWeekDays
+            expandedFirst
+            hasInput
+            inputOnChangeText={(text: string) => setWorkoutNameInput(text)}>
             <Row>
               <Font type="bold" size={16}>
                 grupo muscular
@@ -104,10 +138,10 @@ const RegisterWorkouts: React.FC = () => {
             </Row>
             <Row>
               <View style={{ flex: 1 }}>
-                {/* TODO: remove capitalization */}
                 <Input
                   onChangeText={(text: string) => setMuscleGroupInput(text)}
                   value={muscleGroupInput}
+                  capitalize="none"
                 />
               </View>
               <Button
@@ -138,47 +172,34 @@ const RegisterWorkouts: React.FC = () => {
               <CustomDivider />
             </Row>
             <View>
-              <Portal>
-                <Modal
-                  contentContainerStyle={{
-                    backgroundColor: theme.colors.darker,
-                    padding: 20,
-                    margin: 20
-                  }}
-                  theme={{ colors: { backdrop: 'rgba(0, 0, 0, 0.6)' } }}
-                  visible={modalVisible}>
-                  <Input label="nome do exercício" />
-                  <Row>
-                    <View style={{ flex: 1, marginRight: 5 }}>
-                      <Input numberPicker label="nº de séries" />
-                    </View>
-                    <View style={{ flex: 1, marginLeft: 5 }}>
-                      <Input label="zona alvo de reps" />
-                    </View>
-                  </Row>
-                  <Row>
-                    <View style={{ flex: 1, marginRight: 5 }}>
-                      <Input label="tempo de descanso" />
-                    </View>
-                    <View style={{ flex: 1, marginLeft: 5 }}>
-                      <Input label="cadência" />
-                    </View>
-                  </Row>
-                  <Row style={{ justifyContent: 'flex-end', marginTop: 5 }}>
-                    <Button
-                      textColor={theme.colors.secondary}
-                      onPress={() => setModalVisible(false)}>
-                      <Font type="semibold">cancelar</Font>
-                    </Button>
-                    <Button
-                      mode="outlined"
-                      textColor={theme.colors.secondary}
-                      onPress={() => setModalVisible(false)}>
-                      <Font type="semibold">adicionar</Font>
-                    </Button>
-                  </Row>
-                </Modal>
-              </Portal>
+              <WorkoutModal
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+                exerciseNameInput={exerciseNameInput}
+                setExerciseNameInput={setExerciseNameInput}
+              />
+              {workoutRecord.workouts?.exercises?.length ? (
+                <>
+                  {workoutRecord.workouts?.exercises.map((exercise) => (
+                    <Row
+                      key={exercise.name}
+                      style={{
+                        justifyContent: 'space-between',
+                        marginTop: 5,
+                        marginBottom: 5
+                      }}>
+                      <Font>{exercise.name}</Font>
+                      <Icon name="pencil" color="white" size={14} />
+                    </Row>
+                  ))}
+                  <Divider
+                    style={{
+                      backgroundColor: theme.colors.secondary,
+                      marginTop: 10
+                    }}
+                  />
+                </>
+              ) : null}
 
               <Button
                 onPress={() => setModalVisible(true)}
@@ -190,18 +211,40 @@ const RegisterWorkouts: React.FC = () => {
               </Button>
             </View>
           </Accordion>
+
           {/* TODO: only show when accordion is expanded */}
           <Button
-            onPress={() => setModalVisible(true)}
+            onPress={() => {
+              setWorkoutRecord({
+                ...workoutRecord,
+                workouts: {
+                  ...workoutRecord.workouts,
+                  name: workoutNameInput,
+                  muscleGroups: muscleGroups
+                }
+              });
+
+              setWorkouts([...workouts, workoutRecord.workouts]);
+            }}
             icon={'plus'}
             style={{
               borderRadius: 4,
               marginTop: 15,
-              borderColor: theme.colors.fonts.primary
+              borderColor: !validateInputs()
+                ? theme.colors.disabled2
+                : theme.colors.fonts.primary
             }}
             mode="outlined"
+            disabled={!validateInputs()}
+            theme={{ colors: { onSurfaceDisabled: theme.colors.disabled2 } }}
             textColor={theme.colors.fonts.primary}>
-            <Font type="semibold" color={theme.colors.fonts.primary}>
+            <Font
+              type="semibold"
+              color={
+                validateInputs()
+                  ? theme.colors.fonts.primary
+                  : theme.colors.disabled2
+              }>
               adicionar treino
             </Font>
           </Button>
@@ -209,9 +252,20 @@ const RegisterWorkouts: React.FC = () => {
         <View>
           <Button
             style={{ borderRadius: 4, marginBottom: 5 }}
+            theme={{ colors: { surfaceDisabled: theme.colors.disabled2 } }}
             mode="contained"
-            buttonColor={theme.colors.accent}>
-            <Font type="semibold">próximo →</Font>
+            buttonColor={theme.colors.accent}
+            // TODO: validate whole object
+            disabled={!workoutRecord.workouts?.exercises?.length}>
+            <Font
+              type="semibold"
+              color={
+                workoutRecord.workouts?.exercises?.length
+                  ? theme.colors.fonts.primary
+                  : theme.colors.fonts.secondary
+              }>
+              próximo →
+            </Font>
           </Button>
         </View>
       </Container>

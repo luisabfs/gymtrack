@@ -3,9 +3,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export type RegisterWorkoutRecordParamList = {
   RegisterRecordInfo: undefined;
-  RegisterWorkouts: {
-    recordName: string;
-  };
+  RegisterWorkouts: undefined;
 };
 
 export type RegisterWorkoutRecordNavigationProp =
