@@ -23,28 +23,28 @@ import {
 const RegisterWorkouts: React.FC = () => {
   const theme = useTheme();
   const safeAreaInsets = useSafeAreaInsets();
-  const { setWorkoutRecord, workoutRecord } = useContext(
+  const { dispatch, state, workoutRecord } = useContext(
     RegisterWorkoutRecordContext
   );
 
+  const [registerWorkoutVisible, setRegisterWorkoutVisible] = useState(
+    state.currentWorkout?.status === 'INITIALIZED'
+  );
   const [modalVisible, setModalVisible] = useState(false);
   const [muscleGroupInput, setMuscleGroupInput] = useState('');
   const [exerciseNameInput, setExerciseNameInput] = useState('');
   const [muscleGroups, setMuscleGroups] = useState<string[]>([]);
   const [workoutNameInput, setWorkoutNameInput] = useState<string>('');
 
-  //TODO: move state to context
-  const [workouts, setWorkouts] = useState<
-    (typeof workoutRecord)['workouts'][]
-  >([]);
+  // const validateInputs = (): boolean => {
+  //   return (
+  //     !!exerciseNameInput &&
+  //     !!workoutNameInput &&
+  //     !!state.currentWorkout?.exercises?.length
+  //   );
+  // };
 
-  const validateInputs = (): boolean => {
-    return (
-      !!exerciseNameInput &&
-      !!workoutNameInput &&
-      !!workoutRecord.workouts?.exercises?.length
-    );
-  };
+  console.log('state:>> ', state);
 
   return (
     <SafeAreaView
@@ -74,7 +74,7 @@ const RegisterWorkouts: React.FC = () => {
             <View style={{ justifyContent: 'flex-end' }}>
               <Font size={18} type="bold">
                 treinos da ficha
-                {workoutRecord.name ? ` ${workoutRecord.name}` : ''}:
+                {state.name ? ` ${state.name}` : ''}:
               </Font>
             </View>
             <View>
@@ -87,165 +87,200 @@ const RegisterWorkouts: React.FC = () => {
             </View>
           </View>
 
-          {workouts.length
-            ? workouts.map((workout) => (
-                <Accordion
-                  key={workout?.name}
-                  rowWeekDays
-                  hasInput
-                  inputOnChangeText={(text: string) =>
-                    setWorkoutNameInput(text)
-                  }></Accordion>
-              ))
+          {state.workouts.length
+            ? state.workouts.map(
+                (workout) =>
+                  workout.status === 'FINISHED' && (
+                    <Accordion
+                      key={workout.id}
+                      rowWeekDays
+                      // expandedFirst
+                      workout={workout}
+                      hasInput
+                      inputValue={workoutNameInput}
+                      inputOnChangeText={(text: string) =>
+                        setWorkoutNameInput(text)
+                      }></Accordion>
+                  )
+              )
             : null}
 
-          <Accordion
-            rowWeekDays
-            expandedFirst
-            hasInput
-            inputOnChangeText={(text: string) => setWorkoutNameInput(text)}>
-            <Row>
-              <Font type="bold" size={16}>
-                grupo muscular
-              </Font>
-              <CustomDivider />
-            </Row>
-            <Row style={{ flexWrap: 'wrap' }}>
-              {muscleGroups.length
-                ? muscleGroups.map((group) => (
-                    <MuscleGroupTag
-                      key={group}
-                      mode="outlined"
-                      compact
-                      closeIcon={() => (
-                        <Icon
-                          size={18}
-                          name={'close'}
-                          color={theme.colors.secondary}
-                        />
-                      )}
-                      onClose={() =>
-                        setMuscleGroups(
-                          muscleGroups.filter((value) => value !== group)
-                        )
-                      }>
-                      <Font size={12} type="light">
-                        {group}
-                      </Font>
-                    </MuscleGroupTag>
-                  ))
-                : null}
-            </Row>
-            <Row>
-              <View style={{ flex: 1 }}>
-                <Input
-                  onChangeText={(text: string) => setMuscleGroupInput(text)}
-                  value={muscleGroupInput}
-                  capitalize="none"
-                />
-              </View>
-              <Button
-                icon={'plus'}
-                textColor={theme.colors.accent}
-                disabled={!muscleGroupInput}
-                theme={{
-                  colors: { onSurfaceDisabled: theme.colors.disabled2 }
-                }}
-                onPress={() => {
-                  setMuscleGroupInput('');
-                  setMuscleGroups([...muscleGroups, muscleGroupInput]);
-                }}>
-                <Font
-                  size={12}
-                  type="light"
-                  color={
-                    !muscleGroupInput ? theme.colors.fonts.secondary : undefined
-                  }>
-                  ADD
-                </Font>
-              </Button>
-            </Row>
-            <Row>
-              <Font type="bold" size={16}>
-                exercícios
-              </Font>
-              <CustomDivider />
-            </Row>
-            <View>
-              <WorkoutModal
-                modalVisible={modalVisible}
-                setModalVisible={setModalVisible}
-                exerciseNameInput={exerciseNameInput}
-                setExerciseNameInput={setExerciseNameInput}
-              />
-              {workoutRecord.workouts?.exercises?.length ? (
-                <>
-                  {workoutRecord.workouts?.exercises.map((exercise) => (
-                    <Row
-                      key={exercise.name}
-                      style={{
-                        justifyContent: 'space-between',
-                        marginTop: 5,
-                        marginBottom: 5
-                      }}>
-                      <Font>{exercise.name}</Font>
-                      <Icon name="pencil" color="white" size={14} />
-                    </Row>
-                  ))}
-                  <Divider
-                    style={{
-                      backgroundColor: theme.colors.secondary,
-                      marginTop: 10
+          {registerWorkoutVisible ? (
+            <>
+              <Accordion
+                rowWeekDays
+                expandedFirst
+                hasInput
+                inputValue={workoutNameInput}
+                inputOnChangeText={(text: string) => setWorkoutNameInput(text)}>
+                <Row>
+                  <Font type="bold" size={16}>
+                    grupo muscular
+                  </Font>
+                  <CustomDivider />
+                </Row>
+                <Row style={{ flexWrap: 'wrap' }}>
+                  {muscleGroups.length
+                    ? muscleGroups.map((group) => (
+                        <MuscleGroupTag
+                          key={group}
+                          mode="outlined"
+                          compact
+                          closeIcon={() => (
+                            <Icon
+                              size={18}
+                              name={'close'}
+                              color={theme.colors.secondary}
+                            />
+                          )}
+                          onClose={() =>
+                            setMuscleGroups(
+                              muscleGroups.filter((value) => value !== group)
+                            )
+                          }>
+                          <Font size={12} type="light">
+                            {group}
+                          </Font>
+                        </MuscleGroupTag>
+                      ))
+                    : null}
+                </Row>
+                <Row>
+                  <View style={{ flex: 1 }}>
+                    <Input
+                      onChangeText={(text: string) => setMuscleGroupInput(text)}
+                      value={muscleGroupInput}
+                      capitalize="none"
+                    />
+                  </View>
+                  <Button
+                    icon={'plus'}
+                    textColor={theme.colors.accent}
+                    disabled={!muscleGroupInput}
+                    theme={{
+                      colors: { onSurfaceDisabled: theme.colors.disabled2 }
                     }}
+                    onPress={() => {
+                      setMuscleGroupInput('');
+                      setMuscleGroups([...muscleGroups, muscleGroupInput]);
+                    }}>
+                    <Font
+                      size={12}
+                      type="light"
+                      color={
+                        !muscleGroupInput
+                          ? theme.colors.fonts.secondary
+                          : undefined
+                      }>
+                      ADD
+                    </Font>
+                  </Button>
+                </Row>
+                <Row>
+                  <Font type="bold" size={16}>
+                    exercícios
+                  </Font>
+                  <CustomDivider />
+                </Row>
+                <View>
+                  <WorkoutModal
+                    modalVisible={modalVisible}
+                    setModalVisible={setModalVisible}
+                    exerciseNameInput={exerciseNameInput}
+                    setExerciseNameInput={setExerciseNameInput}
                   />
-                </>
-              ) : null}
 
-              <Button
-                onPress={() => setModalVisible(true)}
-                icon={'plus'}
-                textColor={theme.colors.secondary}>
-                <Font type="semibold" color={theme.colors.secondary}>
-                  adicionar exercício
-                </Font>
-              </Button>
-            </View>
-          </Accordion>
+                  {state.currentWorkout?.exercises?.length ? (
+                    <>
+                      {state.currentWorkout.exercises.map((exercise) => (
+                        <Row
+                          key={exercise.name}
+                          style={{
+                            justifyContent: 'space-between',
+                            marginTop: 5,
+                            marginBottom: 5
+                          }}>
+                          <Font>{exercise.name}</Font>
+                          <Icon name="pencil" color="white" size={14} />
+                        </Row>
+                      ))}
+                      <Divider
+                        style={{
+                          backgroundColor: theme.colors.secondary,
+                          marginTop: 10
+                        }}
+                      />
+                    </>
+                  ) : null}
 
-          {/* TODO: only show when accordion is expanded */}
+                  <Button
+                    onPress={() => setModalVisible(true)}
+                    icon={'plus'}
+                    textColor={theme.colors.secondary}>
+                    <Font type="semibold" color={theme.colors.secondary}>
+                      adicionar exercício
+                    </Font>
+                  </Button>
+                </View>
+              </Accordion>
+            </>
+          ) : // ))
+          null}
           <Button
             onPress={() => {
-              setWorkoutRecord({
-                ...workoutRecord,
-                workouts: {
-                  ...workoutRecord.workouts,
-                  name: workoutNameInput,
-                  muscleGroups: muscleGroups
-                }
-              });
+              if (registerWorkoutVisible) {
+                dispatch({
+                  type: 'ADD_WORKOUT',
+                  payload: {
+                    workout: {
+                      name: workoutNameInput,
+                      muscleGroups,
+                      exercises: [
+                        { name: exerciseNameInput, reps: 10, sets: 4 }
+                      ],
+                      workoutWeekdays: workoutRecord.weekdays,
+                      status: 'FINISHED'
+                    }
+                  }
+                });
+                setRegisterWorkoutVisible(false);
+                return;
+              }
 
-              setWorkouts([...workouts, workoutRecord.workouts]);
+              dispatch({
+                type: 'INIT_WORKOUT',
+                payload: { id: state.workouts.length + 1 }
+              });
+              setMuscleGroupInput('');
+              setWorkoutNameInput('');
+              setMuscleGroups([]);
+              setRegisterWorkoutVisible(true);
             }}
-            icon={'plus'}
+            icon={registerWorkoutVisible ? 'check' : 'plus'}
             style={{
               borderRadius: 4,
               marginTop: 15,
-              borderColor: !validateInputs()
-                ? theme.colors.disabled2
-                : theme.colors.fonts.primary
+              borderColor:
+                // !validateInputs()
+                //   ? theme.colors.disabled2
+                //   :
+                theme.colors.fonts.primary
             }}
             mode="outlined"
-            disabled={!validateInputs()}
-            theme={{ colors: { onSurfaceDisabled: theme.colors.disabled2 } }}
+            // disabled={!validateInputs()}
+            theme={{
+              colors: { onSurfaceDisabled: theme.colors.disabled2 }
+            }}
             textColor={theme.colors.fonts.primary}>
             <Font
               type="semibold"
               color={
-                validateInputs()
-                  ? theme.colors.fonts.primary
-                  : theme.colors.disabled2
+                // validateInputs()
+                //   ?
+                theme.colors.fonts.primary
+                // : theme.colors.disabled2
               }>
-              adicionar treino
+              {registerWorkoutVisible ? `finalizar` : `adicionar treino`}
             </Font>
           </Button>
         </View>
@@ -256,11 +291,11 @@ const RegisterWorkouts: React.FC = () => {
             mode="contained"
             buttonColor={theme.colors.accent}
             // TODO: validate whole object
-            disabled={!workoutRecord.workouts?.exercises?.length}>
+            disabled={!state.currentWorkout?.exercises?.length}>
             <Font
               type="semibold"
               color={
-                workoutRecord.workouts?.exercises?.length
+                state.currentWorkout?.exercises?.length
                   ? theme.colors.fonts.primary
                   : theme.colors.fonts.secondary
               }>
