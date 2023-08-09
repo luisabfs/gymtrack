@@ -1,4 +1,9 @@
 import React, { createContext, useState } from 'react';
+import {
+  useRegisterWorkoutRecord,
+  ActionsType,
+  State
+} from '../hooks/RegisterWorkoutRecord';
 
 interface Exercise {
   name: string;
@@ -7,6 +12,7 @@ interface Exercise {
 }
 
 interface Workout {
+  id: string;
   name?: string;
   muscleGroups?: string[];
   workoutWeekdays?: string[];
@@ -17,18 +23,30 @@ interface WorkoutRecord {
   name: string;
   goal: string;
   weekdays: string[];
-  workouts?: Workout;
+  workouts?: Workout[];
 }
 
 interface RegisterWorkoutRecordContextData {
   workoutRecord: WorkoutRecord;
   setWorkoutRecord: (WorkoutRecord: WorkoutRecord) => void;
+  state: State;
+  dispatch: React.Dispatch<ActionsType>;
 }
 
 export const RegisterWorkoutRecordContext =
   createContext<RegisterWorkoutRecordContextData>({
     workoutRecord: { name: '', goal: '', weekdays: [] },
-    setWorkoutRecord: () => {}
+    setWorkoutRecord: () => {},
+    dispatch: () => {
+      {
+        'SAVE_INFO' || 'ADD_WORKOUT';
+      }
+    },
+    state: {
+      name: '',
+      goal: '',
+      workouts: []
+    }
   });
 
 export const RegisterWorkoutRecordProvider: React.FC<{
@@ -39,12 +57,15 @@ export const RegisterWorkoutRecordProvider: React.FC<{
     goal: '',
     weekdays: []
   });
+  const { state, dispatch } = useRegisterWorkoutRecord();
 
   return (
     <RegisterWorkoutRecordContext.Provider
       value={{
         workoutRecord,
-        setWorkoutRecord
+        setWorkoutRecord,
+        dispatch,
+        state
       }}>
       {children}
     </RegisterWorkoutRecordContext.Provider>
