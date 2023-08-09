@@ -21,9 +21,7 @@ const WorkoutModal: React.FC<Props> = ({
   setExerciseNameInput
 }) => {
   const theme = useTheme();
-  const { setWorkoutRecord, workoutRecord } = useContext(
-    RegisterWorkoutRecordContext
-  );
+  const { dispatch, state } = useContext(RegisterWorkoutRecordContext);
 
   return (
     <Portal>
@@ -65,14 +63,12 @@ const WorkoutModal: React.FC<Props> = ({
             mode="outlined"
             textColor={theme.colors.secondary}
             onPress={() => {
-              setWorkoutRecord({
-                ...workoutRecord,
-                workouts: {
-                  exercises: [
-                    // TODO: fix this
-                    // ...workoutRecord.workouts?.exercises,
-                    { name: exerciseNameInput || '', sets: 4, reps: 10 }
-                  ]
+              dispatch({
+                type: 'ADD_EXERCISE',
+                payload: {
+                  // TODO: fix default values
+                  workoutId: state.currentWorkout?.id || 1,
+                  exercise: { name: exerciseNameInput || '', sets: 4, reps: 10 }
                 }
               });
               setModalVisible(false);
