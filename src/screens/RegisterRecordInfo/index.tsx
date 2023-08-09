@@ -13,9 +13,7 @@ import { Container, ProgressBar } from './styles';
 const RegisterRecordInfo: React.FC = () => {
   const theme = useTheme();
   const navigation = useNavigation<RegisterWorkoutRecordNavigationProp>();
-  const { setWorkoutRecord, workoutRecord } = useContext(
-    RegisterWorkoutRecordContext
-  );
+  const { workoutRecord, dispatch } = useContext(RegisterWorkoutRecordContext);
 
   const [recordNameInput, setRecordNameInput] = useState('');
   const [recordGoalInput, setRecordGoalInput] = useState('');
@@ -89,10 +87,9 @@ const RegisterRecordInfo: React.FC = () => {
             theme={{ colors: { surfaceDisabled: theme.colors.disabled2 } }}
             disabled={!validateInputs()}
             onPress={() => {
-              setWorkoutRecord({
-                ...workoutRecord,
-                name: recordNameInput,
-                goal: recordGoalInput
+              dispatch({
+                type: 'SAVE_INFO',
+                payload: { name: recordNameInput, goal: recordGoalInput }
               });
               navigation.navigate('RegisterWorkouts');
             }}>
