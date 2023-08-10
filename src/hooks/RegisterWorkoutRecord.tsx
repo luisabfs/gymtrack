@@ -81,9 +81,11 @@ function registerWorkoutRecordReducer(
       return {
         ...state,
         workouts: [
-          ...state.workouts,
+          ...state.workouts.filter(
+            (storedWorkout) => storedWorkout.id !== state.currentWorkout?.id
+          ),
           {
-            id: state.workouts?.length + 1,
+            id: state.currentWorkout?.id,
             ...action.payload.workout
           }
         ]
