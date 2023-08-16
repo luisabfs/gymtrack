@@ -12,7 +12,7 @@ interface Workout {
   muscleGroups?: string[];
   workoutWeekdays?: string[];
   exercises?: Exercise[];
-  status: 'INITIALIZED' | 'FINISHED';
+  status?: 'INITIALIZED' | 'FINISHED';
 }
 
 export interface State {
@@ -49,6 +49,10 @@ export type ActionsType =
   | {
       type: 'ADD_EXERCISE';
       payload: { workoutId: number; exercise: Exercise };
+    }
+  | {
+      type: 'SET_CURRENT_WORKOUT';
+      payload: { id?: number };
     };
 
 function registerWorkoutRecordReducer(
@@ -88,7 +92,8 @@ function registerWorkoutRecordReducer(
             id: state.currentWorkout?.id,
             ...action.payload.workout
           }
-        ]
+        ],
+        currentWorkout: undefined
       };
     case 'ADD_EXERCISE':
       // eslint-disable-next-line no-case-declarations
@@ -115,6 +120,18 @@ function registerWorkoutRecordReducer(
             : [action.payload.exercise]
         }
       };
+    case 'SET_CURRENT_WORKOUT':
+      return {
+        ...state,
+        currentWorkout: action.payload.id
+          ? {
+              ...state.workouts.find(
+                (storedWorkout) => storedWorkout.id !== action.payload.id
+              )
+            }
+          : undefined
+      };
+
     default:
       return state;
   }
@@ -124,7 +141,8 @@ export const useRegisterWorkoutRecord = () => {
   const [state, dispatch] = useReducer(registerWorkoutRecordReducer, {
     name: '',
     goal: '',
-    workouts: []
+    workouts: [],
+    currentWorkout: {}
   });
 
   console.log('useRegisterWorkoutRecord', state);

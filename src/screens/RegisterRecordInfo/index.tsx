@@ -15,6 +15,7 @@ const RegisterRecordInfo: React.FC = () => {
   const navigation = useNavigation<RegisterWorkoutRecordNavigationProp>();
   const { workoutRecord, dispatch } = useContext(RegisterWorkoutRecordContext);
 
+  const [expanded, setExpanded] = useState(false);
   const [recordNameInput, setRecordNameInput] = useState('');
   const [recordGoalInput, setRecordGoalInput] = useState('');
 
@@ -76,7 +77,12 @@ const RegisterRecordInfo: React.FC = () => {
           {/* // TODO: add date picker */}
           {/* <Input rounded label="período" icon="calendar" /> */}
 
-          <Accordion leftIcon="dumbbell" label="dias de treino" />
+          <Accordion
+            expanded={expanded}
+            setExpanded={setExpanded}
+            leftIcon="dumbbell"
+            label="dias de treino"
+          />
         </View>
 
         <View>

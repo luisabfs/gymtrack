@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Font, WeekdayCheckbox, Input } from '..';
 import { List } from 'react-native-paper';
@@ -14,10 +14,14 @@ interface Props {
   leftIcon?: string;
   expandedFirst?: boolean;
   hasInput?: boolean;
-  workout?: object;
+  workout?: { exercises: any[]; name: string; id: number };
   inputValue?: string;
   inputOnChangeText?: (text: string) => void;
   children?: React.ReactElement[];
+  expanded: boolean;
+  setExpanded: React.Dispatch<
+    React.SetStateAction<number | boolean | undefined>
+  >;
 }
 
 const Accordion: React.FC<Props> = ({
@@ -25,15 +29,15 @@ const Accordion: React.FC<Props> = ({
   leftIcon = 'pencil',
   rowWeekDays,
   children,
-  expandedFirst = false,
   hasInput = false,
   inputValue,
   inputOnChangeText,
-  workout
+  workout,
+  expanded,
+  setExpanded
 }) => {
   const theme = useTheme();
-  const { workoutRecord } = useContext(RegisterWorkoutRecordContext);
-  const [expanded, setExpanded] = useState(expandedFirst);
+  const { workoutRecord, dispatch } = useContext(RegisterWorkoutRecordContext);
 
   const splited = workoutRecord.weekdays?.toString().split(',');
   const treated = splited?.map((string) => string.slice(0, 3));
@@ -43,17 +47,7 @@ const Accordion: React.FC<Props> = ({
     <Container>
       {label ? <Font type="semibold">{label}</Font> : null}
       {hasInput && inputOnChangeText ? (
-        !workout ? (
-          <Input
-            rounded
-            placeholder='"Treino A"'
-            leftIcon="pencil"
-            rightIcon="chevron-up"
-            rightIconAction={() => setExpanded(!expanded)}
-            value={inputValue}
-            onChangeText={(text) => inputOnChangeText(text)}
-          />
-        ) : (
+        workout && workout.status === 'FINISHED' ? (
           <TouchableOpacity
             style={{
               backgroundColor: theme.colors.card,
@@ -69,12 +63,19 @@ const Accordion: React.FC<Props> = ({
                 height: 4
               }
             }}
-            onPress={() => setExpanded(!expanded)}>
+            onPress={() => {
+              setExpanded(expanded ? undefined : workout.id);
+
+              dispatch({
+                type: 'SET_CURRENT_WORKOUT',
+                payload: expanded ? { id: undefined } : { id: workout.id }
+              });
+            }}>
             <View style={{ flexDirection: 'row' }}>
               <View style={{ flex: 1 }}>
                 <Font type="bold">{workout.name}</Font>
                 <Font type="light">
-                  {workout.exercises.length} exercício
+                  {`${workout.exercises.length}`} exercício
                   {workout.exercises.length > 1 ? 's' : ''}
                 </Font>
               </View>
@@ -87,6 +88,24 @@ const Accordion: React.FC<Props> = ({
               />
             </View>
           </TouchableOpacity>
+        ) : (
+          <Input
+            rounded
+            placeholder='"Treino A"'
+            leftIcon="pencil"
+            rightIcon="chevron-up"
+            rightIconAction={() => {
+              setExpanded(expanded ? undefined : workout?.id);
+              console.log('SET_CURRENT_WORKOUT', workout);
+
+              dispatch({
+                type: 'SET_CURRENT_WORKOUT',
+                payload: { id: workout?.id }
+              });
+            }}
+            value={workout.name ?? inputValue}
+            onChangeText={(text) => inputOnChangeText(text)}
+          />
         )
       ) : null}
       <CustomAccordeon

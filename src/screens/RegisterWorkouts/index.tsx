@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View } from 'react-native';
 import {
   SafeAreaView,
@@ -27,9 +27,7 @@ const RegisterWorkouts: React.FC = () => {
     RegisterWorkoutRecordContext
   );
 
-  const [registerWorkoutVisible, setRegisterWorkoutVisible] = useState(
-    state.currentWorkout?.status === 'INITIALIZED'
-  );
+  const [expanded, setExpanded] = useState<number>();
   const [modalVisible, setModalVisible] = useState(false);
   const [muscleGroupInput, setMuscleGroupInput] = useState('');
   const [exerciseNameInput, setExerciseNameInput] = useState('');
@@ -43,6 +41,11 @@ const RegisterWorkouts: React.FC = () => {
   //     !!state.currentWorkout?.exercises?.length
   //   );
   // };
+
+  useEffect(() => {
+    state.currentWorkout?.status === 'INITIALIZED' &&
+      setExpanded(state.currentWorkout.id);
+  }, [state.currentWorkout]);
 
   console.log('state:>> ', state);
 
@@ -92,15 +95,15 @@ const RegisterWorkouts: React.FC = () => {
                 (workout) =>
                   workout.status && (
                     <Accordion
+                      expanded={expanded === workout.id}
+                      setExpanded={setExpanded}
                       key={workout.id}
                       rowWeekDays
                       expandedFirst={
                         workout.status !== 'FINISHED' ? true : false
                       }
                       hasInput
-                      workout={
-                        workout.status === 'FINISHED' ? workout : undefined
-                      }
+                      workout={workout}
                       inputValue={workoutNameInput}
                       inputOnChangeText={(text: string) =>
                         setWorkoutNameInput(text)
@@ -112,8 +115,8 @@ const RegisterWorkouts: React.FC = () => {
                         <CustomDivider />
                       </Row>
                       <Row style={{ flexWrap: 'wrap' }}>
-                        {muscleGroups.length
-                          ? muscleGroups.map((group) => (
+                        {workout.muscleGroups
+                          ? workout.muscleGroups.map((group) => (
                               <MuscleGroupTag
                                 key={group}
                                 mode="outlined"
@@ -137,7 +140,30 @@ const RegisterWorkouts: React.FC = () => {
                                 </Font>
                               </MuscleGroupTag>
                             ))
-                          : null}
+                          : muscleGroups.map((group) => (
+                              <MuscleGroupTag
+                                key={group}
+                                mode="outlined"
+                                compact
+                                closeIcon={() => (
+                                  <Icon
+                                    size={18}
+                                    name={'close'}
+                                    color={theme.colors.secondary}
+                                  />
+                                )}
+                                onClose={() =>
+                                  setMuscleGroups(
+                                    muscleGroups.filter(
+                                      (value) => value !== group
+                                    )
+                                  )
+                                }>
+                                <Font size={12} type="light">
+                                  {group}
+                                </Font>
+                              </MuscleGroupTag>
+                            ))}
                       </Row>
                       <Row>
                         <View style={{ flex: 1 }}>
@@ -191,9 +217,9 @@ const RegisterWorkouts: React.FC = () => {
                           setExerciseNameInput={setExerciseNameInput}
                         />
 
-                        {state.currentWorkout?.exercises?.length ? (
+                        {workout?.exercises?.length ? (
                           <>
-                            {state.currentWorkout.exercises.map((exercise) => (
+                            {workout.exercises.map((exercise) => (
                               <Row
                                 key={exercise.name}
                                 style={{
@@ -229,7 +255,7 @@ const RegisterWorkouts: React.FC = () => {
             : null}
           <Button
             onPress={() => {
-              if (registerWorkoutVisible) {
+              if (state.currentWorkout?.status === 'INITIALIZED') {
                 dispatch({
                   type: 'ADD_WORKOUT',
                   payload: {
@@ -244,7 +270,7 @@ const RegisterWorkouts: React.FC = () => {
                     }
                   }
                 });
-                setRegisterWorkoutVisible(false);
+                setExpanded(undefined);
                 return;
               }
 
@@ -255,9 +281,11 @@ const RegisterWorkouts: React.FC = () => {
               setMuscleGroupInput('');
               setWorkoutNameInput('');
               setMuscleGroups([]);
-              setRegisterWorkoutVisible(true);
+              setExpanded(state.workouts.length + 1);
             }}
-            icon={registerWorkoutVisible ? 'check' : 'plus'}
+            icon={
+              state.currentWorkout?.status === 'INITIALIZED' ? 'check' : 'plus'
+            }
             style={{
               borderRadius: 4,
               marginTop: 15,
@@ -281,7 +309,9 @@ const RegisterWorkouts: React.FC = () => {
                 theme.colors.fonts.primary
                 // : theme.colors.disabled2
               }>
-              {registerWorkoutVisible ? `finalizar` : `adicionar treino`}
+              {state.currentWorkout?.status === 'INITIALIZED'
+                ? `finalizar`
+                : `adicionar treino`}
             </Font>
           </Button>
         </View>
