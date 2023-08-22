@@ -15,7 +15,7 @@ const RegisterRecordInfo: React.FC = () => {
   const navigation = useNavigation<RegisterWorkoutRecordNavigationProp>();
   const { workoutRecord, dispatch } = useContext(RegisterWorkoutRecordContext);
 
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState<number | boolean | undefined>(false);
   const [recordNameInput, setRecordNameInput] = useState('');
   const [recordGoalInput, setRecordGoalInput] = useState('');
 
@@ -78,7 +78,7 @@ const RegisterRecordInfo: React.FC = () => {
           {/* <Input rounded label="período" icon="calendar" /> */}
 
           <Accordion
-            expanded={expanded}
+            expanded={!!expanded}
             setExpanded={setExpanded}
             leftIcon="dumbbell"
             label="dias de treino"
