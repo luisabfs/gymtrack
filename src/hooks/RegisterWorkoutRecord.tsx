@@ -1,12 +1,12 @@
 import { useReducer } from 'react';
 
-interface Exercise {
+export interface Exercise {
   name: string;
   sets: number;
   reps: number;
 }
 
-interface Workout {
+export interface Workout {
   id?: number;
   name?: string;
   muscleGroups?: string[];
@@ -121,12 +121,14 @@ function registerWorkoutRecordReducer(
         }
       };
     case 'SET_CURRENT_WORKOUT':
+      console.log('SET_CURRENT_WORKOUT:>> ', action.payload);
+
       return {
         ...state,
         currentWorkout: action.payload.id
           ? {
               ...state.workouts.find(
-                (storedWorkout) => storedWorkout.id !== action.payload.id
+                (storedWorkout) => storedWorkout.id === action.payload.id
               )
             }
           : undefined
