@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { useTheme } from 'styled-components/native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -89,6 +89,12 @@ const Input: React.FC<Props> = ({
           </>
         ) : (
           <CustomInput
+            importantForAutofill="no"
+            keyboardType={
+              Platform.OS === 'android' ? 'visible-password' : undefined
+            }
+            autoCorrect={false}
+            spellCheck={false}
             placeholderTextColor={colors.secondary}
             placeholder={placeholder || 'digite aqui'}
             leftIcon={leftIcon}
