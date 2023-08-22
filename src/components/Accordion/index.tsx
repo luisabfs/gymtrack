@@ -5,6 +5,7 @@ import { List } from 'react-native-paper';
 import { useTheme } from 'styled-components/native';
 import { RegisterWorkoutRecordContext } from '../../context/RegisterWorkoutRecord';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Workout } from '../../hooks/RegisterWorkoutRecord';
 
 import { Container, CustomAccordeon } from './styles';
 
@@ -14,7 +15,7 @@ interface Props {
   leftIcon?: string;
   expandedFirst?: boolean;
   hasInput?: boolean;
-  workout?: { exercises: any[]; name: string; id: number };
+  workout?: Workout;
   inputValue?: string;
   inputOnChangeText?: (text: string) => void;
   children?: React.ReactElement[];
@@ -75,8 +76,8 @@ const Accordion: React.FC<Props> = ({
               <View style={{ flex: 1 }}>
                 <Font type="bold">{workout.name}</Font>
                 <Font type="light">
-                  {`${workout.exercises.length}`} exercício
-                  {workout.exercises.length > 1 ? 's' : ''}
+                  {`${workout.exercises?.length}`} exercício
+                  {workout.exercises && workout.exercises.length > 1 ? 's' : ''}
                 </Font>
               </View>
               {/* TODO: add muscleGroups labels */}
@@ -100,10 +101,10 @@ const Accordion: React.FC<Props> = ({
 
               dispatch({
                 type: 'SET_CURRENT_WORKOUT',
-                payload: { id: workout?.id }
+                payload: expanded ? { id: undefined } : { id: workout?.id }
               });
             }}
-            value={workout.name ?? inputValue}
+            value={workout?.name ?? inputValue}
             onChangeText={(text) => inputOnChangeText(text)}
           />
         )
