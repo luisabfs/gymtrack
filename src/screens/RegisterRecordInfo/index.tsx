@@ -13,16 +13,14 @@ import { Container, ProgressBar } from './styles';
 const RegisterRecordInfo: React.FC = () => {
   const theme = useTheme();
   const navigation = useNavigation<RegisterWorkoutRecordNavigationProp>();
-  const { workoutRecord, dispatch } = useContext(RegisterWorkoutRecordContext);
+  const { state, dispatch } = useContext(RegisterWorkoutRecordContext);
 
   const [expanded, setExpanded] = useState<number | boolean | undefined>(false);
   const [recordNameInput, setRecordNameInput] = useState('');
   const [recordGoalInput, setRecordGoalInput] = useState('');
 
   const validateInputs = (): boolean => {
-    return (
-      !!recordNameInput && !!recordGoalInput && !!workoutRecord.weekdays.length
-    );
+    return !!recordNameInput && !!recordGoalInput && !!state.weekdays.length;
   };
 
   return (

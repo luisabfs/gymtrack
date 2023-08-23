@@ -18,6 +18,7 @@ export interface Workout {
 export interface State {
   name: string;
   goal: string;
+  weekdays: string[];
   workouts: Workout[];
   currentWorkout?: Workout;
 }
@@ -53,6 +54,14 @@ export type ActionsType =
   | {
       type: 'SET_CURRENT_WORKOUT';
       payload: { id?: number };
+    }
+  | {
+      type: 'SET_WEEKDAYS';
+      payload: { weekdays: string[] };
+    }
+  | {
+      type: 'SET_WORKOUT_WEEKDAYS';
+      payload: { workoutId: number; weekdays: string[] };
     };
 
 function registerWorkoutRecordReducer(
@@ -121,8 +130,6 @@ function registerWorkoutRecordReducer(
         }
       };
     case 'SET_CURRENT_WORKOUT':
-      console.log('SET_CURRENT_WORKOUT:>> ', action.payload);
-
       return {
         ...state,
         currentWorkout: action.payload.id
@@ -133,7 +140,26 @@ function registerWorkoutRecordReducer(
             }
           : undefined
       };
-
+    case 'SET_WEEKDAYS':
+      return {
+        ...state,
+        weekdays: action.payload.weekdays
+      };
+    case 'SET_WORKOUT_WEEKDAYS':
+      return {
+        ...state,
+        workouts: [
+          ...state.workouts.filter(
+            (storedWorkout) => storedWorkout.id !== action.payload.workoutId
+          ),
+          {
+            ...state.workouts.find(
+              (storedWorkout) => storedWorkout.id === action.payload.workoutId
+            ),
+            workoutWeekdays: action.payload.weekdays
+          }
+        ]
+      };
     default:
       return state;
   }
@@ -143,11 +169,10 @@ export const useRegisterWorkoutRecord = () => {
   const [state, dispatch] = useReducer(registerWorkoutRecordReducer, {
     name: '',
     goal: '',
+    weekdays: [],
     workouts: [],
     currentWorkout: {}
   });
-
-  console.log('useRegisterWorkoutRecord', state);
 
   return { state, dispatch };
 };

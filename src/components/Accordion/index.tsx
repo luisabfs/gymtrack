@@ -38,9 +38,9 @@ const Accordion: React.FC<Props> = ({
   setExpanded
 }) => {
   const theme = useTheme();
-  const { workoutRecord, dispatch } = useContext(RegisterWorkoutRecordContext);
+  const { state, dispatch } = useContext(RegisterWorkoutRecordContext);
 
-  const splited = workoutRecord.weekdays?.toString().split(',');
+  const splited = state.weekdays?.toString().split(',');
   const treated = splited?.map((string) => string.slice(0, 3));
   const formatted = treated?.join(', ');
 
@@ -74,7 +74,7 @@ const Accordion: React.FC<Props> = ({
             }}>
             <View style={{ flexDirection: 'row' }}>
               <View style={{ flex: 1 }}>
-                <Font type="bold">{workout.name}</Font>
+                <Font type="bold">{workout.name || ''}</Font>
                 <Font type="light">
                   {`${workout.exercises?.length}`} exercício
                   {workout.exercises && workout.exercises.length > 1 ? 's' : ''}
@@ -110,12 +110,9 @@ const Accordion: React.FC<Props> = ({
         )
       ) : null}
       <CustomAccordeon
-        row={rowWeekDays}
         hasInput={hasInput}
-        placeholder={!workoutRecord.weekdays?.length}
-        title={
-          workoutRecord.weekdays?.length ? formatted : '"seg, ter, qua, quin"'
-        }
+        placeholder={!state.weekdays?.length}
+        title={state.weekdays?.length ? formatted : '"seg, ter, qua, quin"'}
         left={(props) => (
           <List.Icon
             {...props}

@@ -23,9 +23,7 @@ import {
 const RegisterWorkouts: React.FC = () => {
   const theme = useTheme();
   const safeAreaInsets = useSafeAreaInsets();
-  const { dispatch, state, workoutRecord } = useContext(
-    RegisterWorkoutRecordContext
-  );
+  const { dispatch, state } = useContext(RegisterWorkoutRecordContext);
 
   const [expanded, setExpanded] = useState<number | boolean | undefined>();
   const [modalVisible, setModalVisible] = useState(false);
@@ -49,6 +47,35 @@ const RegisterWorkouts: React.FC = () => {
             (workout) => workout?.status === 'INITIALIZED' && !expanded
           )
       : false;
+  };
+
+  const handleWorkoutButton = () => {
+    setMuscleGroupInput('');
+    setWorkoutNameInput('');
+    setMuscleGroups([]);
+
+    if (state.currentWorkout?.status === 'INITIALIZED') {
+      dispatch({
+        type: 'ADD_WORKOUT',
+        payload: {
+          workout: {
+            name: workoutNameInput,
+            muscleGroups,
+            exercises: [{ name: exerciseNameInput, reps: 10, sets: 4 }],
+            workoutWeekdays: state.currentWorkout.workoutWeekdays,
+            status: 'FINISHED'
+          }
+        }
+      });
+      setExpanded(undefined);
+      return;
+    }
+
+    dispatch({
+      type: 'INIT_WORKOUT',
+      payload: { id: state.workouts.length + 1 }
+    });
+    setExpanded(state.workouts.length + 1);
   };
 
   useEffect(() => {
@@ -151,7 +178,10 @@ const RegisterWorkouts: React.FC = () => {
                                   </Font>
                                 </MuscleGroupTag>
                               ))
-                            : muscleGroups.map((group) => (
+                            : null}
+
+                          {muscleGroups
+                            ? muscleGroups.map((group) => (
                                 <MuscleGroupTag
                                   key={group}
                                   mode="outlined"
@@ -174,7 +204,8 @@ const RegisterWorkouts: React.FC = () => {
                                     {group}
                                   </Font>
                                 </MuscleGroupTag>
-                              ))}
+                              ))
+                            : null}
                         </Row>
                         <Row>
                           <View style={{ flex: 1 }}>
@@ -266,36 +297,9 @@ const RegisterWorkouts: React.FC = () => {
                     )
                 ) // ))
               : null}
+            {/* {state.} */}
             <Button
-              onPress={() => {
-                if (state.currentWorkout?.status === 'INITIALIZED') {
-                  dispatch({
-                    type: 'ADD_WORKOUT',
-                    payload: {
-                      workout: {
-                        name: workoutNameInput,
-                        muscleGroups,
-                        exercises: [
-                          { name: exerciseNameInput, reps: 10, sets: 4 }
-                        ],
-                        workoutWeekdays: workoutRecord.weekdays,
-                        status: 'FINISHED'
-                      }
-                    }
-                  });
-                  setExpanded(undefined);
-                  return;
-                }
-
-                dispatch({
-                  type: 'INIT_WORKOUT',
-                  payload: { id: state.workouts.length + 1 }
-                });
-                setMuscleGroupInput('');
-                setWorkoutNameInput('');
-                setMuscleGroups([]);
-                setExpanded(state.workouts.length + 1);
-              }}
+              onPress={handleWorkoutButton}
               icon={
                 state.currentWorkout?.status === 'INITIALIZED'
                   ? 'check'

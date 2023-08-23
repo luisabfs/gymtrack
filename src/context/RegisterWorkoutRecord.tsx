@@ -45,7 +45,8 @@ export const RegisterWorkoutRecordContext =
     state: {
       name: '',
       goal: '',
-      workouts: []
+      workouts: [],
+      weekdays: []
     }
   });
 
