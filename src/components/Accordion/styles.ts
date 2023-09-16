@@ -31,3 +31,36 @@ export const CustomAccordeon = styled(List.Accordion).attrs(
   height: ${({ hasInput }: Props) => (hasInput ? 0 : 46)}px;
   border: ${({ theme }) => `1px solid ${theme.colors.secondary}`};
 `;
+
+export const AccordionContentContainer = styled.TouchableOpacity.attrs(() => ({
+  elevation: 10,
+  shadowColor: 'black',
+  shadowRadius: 5,
+  shadowOpacity: 0.3,
+  shadowOffset: {
+    width: 1,
+    height: 4
+  }
+}))`
+  background-color: ${({ theme }) => theme.colors.darker};
+  padding: 10px;
+  border-radius: 10px;
+  border-width: 1px;
+  border-color: ${({ theme }) => theme.colors.background};
+`;
+
+export const ClosedAccordion = styled.TouchableOpacity.attrs(() => ({
+  elevation: 10,
+  shadowColor: 'black',
+  shadowRadius: 5,
+  shadowOpacity: 0.3,
+  shadowOffset: {
+    width: 1,
+    height: 4
+  }
+}))`
+  background-color: ${({ theme }) => theme.colors.card};
+  padding: 15px;
+  padding-right: 5px;
+  border-radius: 4px;
+`;

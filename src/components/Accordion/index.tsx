@@ -1,13 +1,18 @@
 import React, { useContext } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
+import { useTheme } from 'styled-components/native';
 import { Font, WeekdayCheckbox, Input } from '..';
 import { List } from 'react-native-paper';
-import { useTheme } from 'styled-components/native';
 import { RegisterWorkoutRecordContext } from '../../context/RegisterWorkoutRecord';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Workout } from '../../hooks/RegisterWorkoutRecord';
-
-import { Container, CustomAccordeon } from './styles';
+import { formatWeekdayArrayToString } from '../../utils';
+import {
+  Container,
+  CustomAccordeon,
+  ClosedAccordion,
+  AccordionContentContainer
+} from './styles';
 
 interface Props {
   label?: string;
@@ -39,39 +44,23 @@ const Accordion: React.FC<Props> = ({
 }) => {
   const theme = useTheme();
   const { state, dispatch } = useContext(RegisterWorkoutRecordContext);
+  const isWorkoutFinished = workout && workout.status === 'FINISHED';
 
-  const splited = state.weekdays?.toString().split(',');
-  const treated = splited?.map((string) => string.slice(0, 3));
-  const formatted = treated?.join(', ');
+  const handleCurrentWorkout = (workout?: Workout) => {
+    setExpanded((previousValue) => (previousValue ? undefined : workout?.id));
+
+    dispatch({
+      type: 'SET_CURRENT_WORKOUT',
+      payload: expanded ? { id: undefined } : { id: workout?.id }
+    });
+  };
 
   return (
     <Container>
       {label ? <Font type="semibold">{label}</Font> : null}
       {hasInput && inputOnChangeText ? (
-        workout && workout.status === 'FINISHED' ? (
-          <TouchableOpacity
-            style={{
-              backgroundColor: theme.colors.card,
-              padding: 15,
-              paddingRight: 5,
-              borderRadius: 4,
-              elevation: 10,
-              shadowColor: 'black',
-              shadowRadius: 5,
-              shadowOpacity: 0.3,
-              shadowOffset: {
-                width: 1,
-                height: 4
-              }
-            }}
-            onPress={() => {
-              setExpanded(expanded ? undefined : workout.id);
-
-              dispatch({
-                type: 'SET_CURRENT_WORKOUT',
-                payload: expanded ? { id: undefined } : { id: workout.id }
-              });
-            }}>
+        isWorkoutFinished ? (
+          <ClosedAccordion onPress={() => handleCurrentWorkout(workout)}>
             <View style={{ flexDirection: 'row' }}>
               <View style={{ flex: 1 }}>
                 <Font type="bold">{workout.name || ''}</Font>
@@ -88,22 +77,14 @@ const Accordion: React.FC<Props> = ({
                 style={{ padding: 10 }}
               />
             </View>
-          </TouchableOpacity>
+          </ClosedAccordion>
         ) : (
           <Input
             rounded
             placeholder='"Treino A"'
             leftIcon="pencil"
             rightIcon="chevron-up"
-            rightIconAction={() => {
-              setExpanded(expanded ? undefined : workout?.id);
-              console.log('SET_CURRENT_WORKOUT', workout);
-
-              dispatch({
-                type: 'SET_CURRENT_WORKOUT',
-                payload: expanded ? { id: undefined } : { id: workout?.id }
-              });
-            }}
+            rightIconAction={() => handleCurrentWorkout(workout)}
             value={workout?.name ?? inputValue}
             onChangeText={(text) => inputOnChangeText(text)}
           />
@@ -112,7 +93,11 @@ const Accordion: React.FC<Props> = ({
       <CustomAccordeon
         hasInput={hasInput}
         placeholder={!state.weekdays?.length}
-        title={state.weekdays?.length ? formatted : '"seg, ter, qua, quin"'}
+        title={
+          state.weekdays?.length
+            ? formatWeekdayArrayToString(state.weekdays)
+            : '"seg, ter, qua, quin"'
+        }
         left={(props) => (
           <List.Icon
             {...props}
@@ -121,23 +106,12 @@ const Accordion: React.FC<Props> = ({
           />
         )}
         expanded={expanded}
-        onPress={() => setExpanded(!expanded)}>
+        onPress={() => setExpanded((prev) => !prev)}>
         <>
-          <View
-            style={{
-              backgroundColor: theme.colors.darker,
-              padding: 10,
-              borderRadius: 10,
-              borderWidth: 1,
-              borderColor: theme.colors.background,
-              elevation: 10,
-              shadowColor: 'black',
-              shadowRadius: 5,
-              shadowOpacity: 0.3
-            }}>
+          <AccordionContentContainer>
             <WeekdayCheckbox row={rowWeekDays} />
             {children ? <View style={{ padding: 10 }}>{children}</View> : null}
-          </View>
+          </AccordionContentContainer>
         </>
       </CustomAccordeon>
     </Container>
