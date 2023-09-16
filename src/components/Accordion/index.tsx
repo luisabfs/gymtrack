@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View } from 'react-native';
+import { View, Keyboard } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import { Font, WeekdayCheckbox, Input } from '..';
 import { List } from 'react-native-paper';
@@ -106,7 +106,10 @@ const Accordion: React.FC<Props> = ({
           />
         )}
         expanded={expanded}
-        onPress={() => setExpanded((prev) => !prev)}>
+        onPress={() => {
+          setExpanded((previousValue) => !previousValue);
+          if (!children) Keyboard.dismiss();
+        }}>
         <>
           <AccordionContentContainer>
             <WeekdayCheckbox row={rowWeekDays} />
