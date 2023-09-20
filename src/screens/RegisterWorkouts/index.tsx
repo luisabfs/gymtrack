@@ -6,19 +6,13 @@ import {
 } from 'react-native-safe-area-context';
 
 import { useTheme } from 'styled-components/native';
-import { Font, Accordion, Input, WorkoutModal } from '../../components';
+import { Font, Accordion, Input, WorkoutModal, Header } from '../../components';
 import { Button, Divider } from 'react-native-paper';
 import { RegisterWorkoutRecordContext } from '../../context/RegisterWorkoutRecord';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {
-  Container,
-  ProgressBar,
-  Row,
-  CustomDivider,
-  MuscleGroupTag
-} from './styles';
+import { Container, Row, CustomDivider, MuscleGroupTag } from './styles';
 
 const RegisterWorkouts: React.FC = () => {
   const theme = useTheme();
@@ -96,37 +90,10 @@ const RegisterWorkouts: React.FC = () => {
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{ flex: 1 }}>
           <View style={{ flex: 1 }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                width: '100%'
-              }}>
-              <ProgressBar />
-              <ProgressBar active />
-              <ProgressBar />
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                width: '100%',
-                justifyContent: 'space-between',
-                marginBottom: 10
-              }}>
-              <View style={{ justifyContent: 'flex-end' }}>
-                <Font size={18} type="bold">
-                  treinos da ficha
-                  {state.name ? ` ${state.name}` : ''}:
-                </Font>
-              </View>
-              <View>
-                <Font size={11} type="light">
-                  passo
-                </Font>
-                <Font size={18} type="bold">
-                  2/3
-                </Font>
-              </View>
-            </View>
+            <Header
+              currentStep={2}
+              title={`treinos da ficha ${state.name ? ` ${state.name}` : ''}`}
+            />
 
             {state.workouts.length
               ? state.workouts.map(
@@ -295,9 +262,8 @@ const RegisterWorkouts: React.FC = () => {
                         </View>
                       </Accordion>
                     )
-                ) // ))
+                )
               : null}
-            {/* {state.} */}
             <Button
               onPress={handleWorkoutButton}
               icon={
