@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Platform } from 'react-native';
+import { View, Platform, TextInputProps } from 'react-native';
 import { useTheme } from 'styled-components/native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -7,16 +7,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Font } from '../';
 import { Container, Wrapper, CustomInput, NumberPickerButton } from './styles';
 
-interface Props {
+interface Props extends TextInputProps {
   label?: string;
   leftIcon?: React.ComponentProps<typeof Icon>['name'];
   rightIcon?: React.ComponentProps<typeof Icon>['name'];
   rightIconAction?: () => void;
-  placeholder?: string;
   rounded?: boolean;
   numberPicker?: boolean;
-  onChangeText?: (text: string) => void;
-  value?: string;
   capitalize?: 'words' | 'none' | 'sentences' | 'characters';
 }
 
