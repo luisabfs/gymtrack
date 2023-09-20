@@ -14,6 +14,7 @@ interface Props {
   setExerciseNameInput: React.Dispatch<React.SetStateAction<string>>;
 }
 
+// TODO: add input functionalities
 const WorkoutModal: React.FC<Props> = ({
   modalVisible,
   setModalVisible,
@@ -29,11 +30,13 @@ const WorkoutModal: React.FC<Props> = ({
         contentContainerStyle={{
           backgroundColor: theme.colors.darker,
           padding: 20,
-          margin: 20
+          margin: 20,
+          marginBottom: 200
         }}
         theme={{ colors: { backdrop: 'rgba(0, 0, 0, 0.6)' } }}
         visible={modalVisible}>
         <Input
+          autoFocus
           label="nome do exercício"
           onChangeText={(text) => setExerciseNameInput(text)}
         />
