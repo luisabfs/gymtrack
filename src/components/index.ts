@@ -4,3 +4,4 @@ export { default as Accordion } from './Accordion';
 export { default as WeekdayCheckbox } from './WeekdayCheckbox';
 export { default as WorkoutModal } from './WorkoutModal';
 export { default as Header } from './Header';
+export { default as Tag } from './Tag';

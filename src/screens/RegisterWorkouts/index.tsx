@@ -6,13 +6,20 @@ import {
 } from 'react-native-safe-area-context';
 
 import { useTheme } from 'styled-components/native';
-import { Font, Accordion, Input, WorkoutModal, Header } from '../../components';
+import {
+  Font,
+  Accordion,
+  Input,
+  WorkoutModal,
+  Header,
+  Tag
+} from '../../components';
 import { Button, Divider } from 'react-native-paper';
 import { RegisterWorkoutRecordContext } from '../../context/RegisterWorkoutRecord';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { Container, Row, CustomDivider, MuscleGroupTag } from './styles';
+import { Container, Row, CustomDivider } from './styles';
 
 const RegisterWorkouts: React.FC = () => {
   const theme = useTheme();
@@ -23,7 +30,9 @@ const RegisterWorkouts: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [muscleGroupInput, setMuscleGroupInput] = useState('');
   const [exerciseNameInput, setExerciseNameInput] = useState('');
-  const [muscleGroups, setMuscleGroups] = useState<string[]>([]);
+  const [muscleGroups, setMuscleGroups] = useState<string[]>(
+    state.currentWorkout?.muscleGroups || []
+  );
   const [workoutNameInput, setWorkoutNameInput] = useState<string>('');
 
   const validateInputs = (): boolean => {
@@ -92,7 +101,7 @@ const RegisterWorkouts: React.FC = () => {
           <View style={{ flex: 1 }}>
             <Header
               currentStep={2}
-              title={`treinos da ficha ${state.name ? ` ${state.name}` : ''}`}
+              title={`treinos da ficha ${state.name || ''}`}
             />
 
             {state.workouts.length
@@ -120,57 +129,19 @@ const RegisterWorkouts: React.FC = () => {
                           <CustomDivider />
                         </Row>
                         <Row style={{ flexWrap: 'wrap' }}>
-                          {workout.muscleGroups
-                            ? workout.muscleGroups.map((group) => (
-                                <MuscleGroupTag
-                                  key={group}
-                                  mode="outlined"
-                                  compact
-                                  closeIcon={() => (
-                                    <Icon
-                                      size={18}
-                                      name={'close'}
-                                      color={theme.colors.secondary}
-                                    />
-                                  )}
-                                  onClose={() =>
-                                    setMuscleGroups(
-                                      muscleGroups.filter(
-                                        (value) => value !== group
-                                      )
-                                    )
-                                  }>
-                                  <Font size={12} type="light">
-                                    {group}
-                                  </Font>
-                                </MuscleGroupTag>
-                              ))
-                            : null}
-
                           {muscleGroups
                             ? muscleGroups.map((group) => (
-                                <MuscleGroupTag
+                                <Tag
                                   key={group}
-                                  mode="outlined"
-                                  compact
-                                  closeIcon={() => (
-                                    <Icon
-                                      size={18}
-                                      name={'close'}
-                                      color={theme.colors.secondary}
-                                    />
-                                  )}
+                                  label={group}
                                   onClose={() =>
                                     setMuscleGroups(
                                       muscleGroups.filter(
                                         (value) => value !== group
                                       )
                                     )
-                                  }>
-                                  <Font size={12} type="light">
-                                    {group}
-                                  </Font>
-                                </MuscleGroupTag>
+                                  }
+                                />
                               ))
                             : null}
                         </Row>
