@@ -35,7 +35,21 @@ const RegisterWorkouts: React.FC = () => {
   );
   const [workoutNameInput, setWorkoutNameInput] = useState<string>('');
 
-  const validateInputs = (): boolean => {
+  const isAllWeekdaysChecked = (): boolean => {
+    const weekdays = state.workouts.map((workout) => workout.workoutWeekdays);
+    if (weekdays.length === state.weekdays.length) return false;
+
+    const workoutWeekdays = weekdays.reduce(
+      (accumulator, value) => value && accumulator?.concat(value),
+      []
+    );
+    if (!workoutWeekdays) return false;
+    const test = state.weekdays.every((item) => workoutWeekdays.includes(item));
+
+    return test;
+  };
+
+  const areInputsFilled = (): boolean => {
     return (
       !!exerciseNameInput &&
       !!workoutNameInput &&
@@ -43,13 +57,16 @@ const RegisterWorkouts: React.FC = () => {
     );
   };
 
-  const disableButton = (): boolean => {
-    return state.workouts.length > 0
-      ? (state.currentWorkout && !validateInputs()) ||
-          state.workouts.some(
-            (workout) => workout?.status === 'INITIALIZED' && !expanded
-          )
-      : false;
+  const disableAddWorkoutButton = (): boolean => {
+    const hasRegisteredWorkouts = state.workouts.length > 0;
+    const isSomeWorkoutInitialized = state.workouts.some(
+      (workout) => workout?.status === 'INITIALIZED' && !expanded
+    );
+
+    if (!hasRegisteredWorkouts) return false;
+    return (
+      (state.currentWorkout && !areInputsFilled()) || isSomeWorkoutInitialized
+    );
   };
 
   const handleWorkoutButton = () => {
@@ -235,38 +252,40 @@ const RegisterWorkouts: React.FC = () => {
                     )
                 )
               : null}
-            <Button
-              onPress={handleWorkoutButton}
-              icon={
-                state.currentWorkout?.status === 'INITIALIZED'
-                  ? 'check'
-                  : 'plus'
-              }
-              style={{
-                borderRadius: 4,
-                marginTop: 15,
-                borderColor: disableButton()
-                  ? theme.colors.disabled2
-                  : theme.colors.fonts.primary
-              }}
-              mode="outlined"
-              disabled={disableButton()}
-              theme={{
-                colors: { onSurfaceDisabled: theme.colors.disabled2 }
-              }}
-              textColor={theme.colors.fonts.primary}>
-              <Font
-                type="semibold"
-                color={
-                  disableButton()
+            {!isAllWeekdaysChecked() ? (
+              <Button
+                onPress={handleWorkoutButton}
+                icon={
+                  state.currentWorkout?.status === 'INITIALIZED'
+                    ? 'check'
+                    : 'plus'
+                }
+                style={{
+                  borderRadius: 4,
+                  marginTop: 15,
+                  borderColor: disableAddWorkoutButton()
                     ? theme.colors.disabled2
                     : theme.colors.fonts.primary
-                }>
-                {state.currentWorkout?.status === 'INITIALIZED'
-                  ? `finalizar`
-                  : `adicionar treino`}
-              </Font>
-            </Button>
+                }}
+                mode="outlined"
+                disabled={disableAddWorkoutButton()}
+                theme={{
+                  colors: { onSurfaceDisabled: theme.colors.disabled2 }
+                }}
+                textColor={theme.colors.fonts.primary}>
+                <Font
+                  type="semibold"
+                  color={
+                    disableAddWorkoutButton()
+                      ? theme.colors.disabled2
+                      : theme.colors.fonts.primary
+                  }>
+                  {state.currentWorkout?.status === 'INITIALIZED'
+                    ? `finalizar`
+                    : `adicionar treino`}
+                </Font>
+              </Button>
+            ) : null}
           </View>
           <View>
             <Button
@@ -275,7 +294,7 @@ const RegisterWorkouts: React.FC = () => {
               mode="contained"
               buttonColor={theme.colors.accent}
               // TODO: validate whole object
-              disabled={!state.currentWorkout?.exercises?.length}>
+              disabled={!isAllWeekdaysChecked()}>
               <Font
                 type="semibold"
                 color={
